@@ -1,0 +1,49 @@
+/****** MESTO ******/
+
+/*Глобальные стили*/
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts/inter/fonts.css);
+@import url(../blocks/page/page.css);
+
+/* Секция Header */
+@import url(../blocks/page/__header/page__header.css);
+@import url(../blocks/header/header.css);
+@import url(../blocks/header/__logo/header__logo.css);
+
+/* Секция Profile */
+@import url(../blocks/page/__content/page__content.css);
+@import url(../blocks/content/content.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/content/__profile/content__profile.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__description/profile__description.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__edit-button/profile__edit-button.css);
+@import url(../blocks/profile/__add-button/profile__add-button.css);
+
+/* Секция Elements */
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/content/__elements-section/content__elements-section.css);
+@import url(../blocks/element/element.css);
+@import url(../blocks/element/__image/element__image.css);
+@import url(../blocks/element/__description/element__description.css);
+@import url(../blocks/element/__caption/element__caption.css);
+@import url(../blocks/element/__like-button/element__like-button.css);
+
+/* Секция Footer */
+@import url(../blocks/page/__footer/page__footer.css);
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
+
+/* Секция Popup */
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/__form/popup__form.css);
+@import url(../blocks/popup/__form-heading/popup__form-heading.css);
+@import url(../blocks/popup/__form-item/popup__form-item.css);
+@import url(../blocks/popup/__form-item/_type/popup__form-item_type_desctiption.css);
+@import url(../blocks/popup/__form-item/_type/popup__form-item_type_name.css);
+@import url(../blocks/popup/__form-submit-button/popup__form-submit-button.css);

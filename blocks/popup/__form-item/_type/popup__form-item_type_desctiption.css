@@ -1,0 +1,10 @@
+
+.popup__form-item_type_description {
+  margin: 0 auto 48px;
+}
+
+@media screen and (max-width: 480px) {
+  .popup__form-item_type_description {
+    margin-bottom: 35px;
+  }
+}

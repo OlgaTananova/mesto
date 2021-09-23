@@ -1,0 +1,31 @@
+
+.profile__name {
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1.14;
+  grid-area: name;
+  padding: 0;
+  margin: 0;
+  align-self: end;
+}
+
+@media screen and (max-width: 680px) {
+  .profile__name {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .profile__name {
+    font-size: 8vw;
+    line-height: 1.22;
+    font-weight: 500;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .profile__name {
+    font-size: 27px;
+    line-height: 1.2;
+  }
+}

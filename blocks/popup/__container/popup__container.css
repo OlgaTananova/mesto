@@ -1,0 +1,27 @@
+
+.popup__container {
+  width: 470px;
+  height: 370px;
+  margin: 155px 385px 175px 425px;
+  display: grid;
+  grid-template: max-content max-content/ max-content max-content;
+  grid-row-gap: 8px;
+  grid-column-gap: 8px;
+}
+
+@media screen and (max-width: 1279px) {
+  .popup__container {
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .popup__container {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    margin: 82px auto auto;
+    gap: 0;
+  }
+}
+
