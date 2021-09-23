@@ -2,16 +2,16 @@
 .popup__container {
   width: 470px;
   height: 370px;
-  margin: 155px 385px 175px 425px;
+  margin: auto;
   display: grid;
   grid-template: max-content max-content/ max-content max-content;
   grid-row-gap: 8px;
   grid-column-gap: 8px;
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (width: 1280px) {
   .popup__container {
-    margin: auto;
+    margin: 155px 385px 175px 425px;
   }
 }
 
