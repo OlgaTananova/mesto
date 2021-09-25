@@ -9,60 +9,60 @@
 </head>
 <body class="page">
 <header class="header page__header">
-  <div class="header__logo"></div>
+  <img class="header__logo" src="./images/logo.svg" alt="Логотип Mesto">
 </header>
 <main class="content page__content">
   <section class="profile content__profile">
     <img class="profile__avatar" src="images/avatar.jpg" alt="Фото-аватар">
     <div class="profile__info">
-      <h1 class="profile__name">Жак-Ив Кусто</h1>
+      <h1 class="profile__name">Жак Ив Кусто</h1>
       <p class="profile__description">Исследователь океана</p>
-      <button type="button" class="profile__edit-button"></button>
+      <button type="button" class="profile__edit-button" aria-label="Кнопка редактирования профиля"></button>
     </div>
-    <button type="button" class="profile__add-button"></button>
+    <button type="button" class="profile__add-button" aria-label="Кнопка добавления фотографий"></button>
   </section>
   <section class="elements-section content__elements-section" aria-label="Фоторамка">
     <ul class="elements">
       <li class="element">
         <img class="element__image" src="images/element_photo_saint-petersburg.jpg" alt="Фото: Санкт-Петербург">
         <div class="element__description">
-          <p class="element__caption">Санкт-Петербург</p>
-          <button type="button" class="element__like-button"></button>
+          <h2 class="element__caption">Санкт-Петербург</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
       <li class="element">
         <img class="element__image" src="images/element_photo_olhon.jpg" alt="Фото: Ольхон">
         <div class="element__description">
-          <p class="element__caption">Ольхон</p>
-          <button type="button" class="element__like-button"></button>
+          <h2 class="element__caption">Ольхон</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
       <li class="element">
         <img class="element__image" src="images/element_photo_dombai.jpg" alt="Фото: Домбай">
         <div class="element__description">
-          <p class="element__caption">Домбай</p>
-          <button class="element__like-button"></button>
+          <h2 class="element__caption">Домбай</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
       <li class="element">
         <img class="element__image" src="images/element_photo_baikal.jpg" alt="Фото: Байкал">
         <div class="element__description">
-          <p class="element__caption">Байкал</p>
-          <button class="element__like-button"></button>
+          <h2 class="element__caption">Байкал</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
       <li class="element">
         <img class="element__image" src="images/element_photo_karelia.jpg" alt="Фото: Карелия">
         <div class="element__description">
-          <p class="element__caption">Карелия</p>
-          <button class="element__like-button"></button>
+          <h2 class="element__caption">Карелия</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
       <li class="element">
-        <img class="element__image" src="images/element_photo_altai.jpg" alt="Фото: Алтей, озеро Телецкое">
+        <img class="element__image" src="images/element_photo_altai.jpg" alt="Фото: Алтай, озеро Телецкое">
         <div class="element__description">
-          <p class="element__caption">Алтaй, озеро Телецкое</p>
-          <button class="element__like-button"></button>
+          <h2 class="element__caption">Алтaй, озеро Телецкое</h2>
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
       </li>
     </ul>
@@ -71,10 +71,11 @@
 <footer class="footer page__footer">
   <p class="footer__copyright">&copy;2020 Mesto Russia</p>
 </footer>
-<section class="popup">
+<div class="popup">
   <div class="popup__container">
-    <button class="popup__close-button"></button>
-    <form class="popup__form">
+    <button type="button" class="popup__close-button"
+            aria-label="Кнопка закрытия модального окна редактирования профиля"></button>
+    <form class="popup__form" name="edit-profile-form">
       <h2 class="popup__form-heading">Редактировать профиль</h2>
       <input type="text" class="popup__form-item popup__form-item_type_name" name="name" placeholder="Жак-Ив Кусто">
       <input type="text" class="popup__form-item popup__form-item_type_description" name="description"
@@ -82,7 +83,7 @@
       <button type="submit" class="popup__form-submit-button">Сохранить</button>
     </form>
   </div>
-</section>
+</div>
 <script src="./scripts/script.js"></script>
 </body>
 </html>

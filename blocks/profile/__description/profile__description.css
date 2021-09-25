@@ -7,12 +7,10 @@
   padding: 0;
   margin: 0;
   align-self: start;
-}
-
-@media screen and (max-width: 950px) {
-  .profile__description {
-    grid-area: description;
-  }
+  max-width: 294px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 680px) {
@@ -24,6 +22,7 @@
 @media screen and (max-width: 485px) {
   .profile__description {
     font-size: 4vw;
+    max-width: 280px;
     }
 }
 
@@ -31,5 +30,6 @@
   .profile__description {
     font-size: 14px;
     line-height: 1.21;
+    max-width: 189px;
   }
 }
