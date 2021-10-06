@@ -31,6 +31,7 @@
 @import url(../blocks/element/__caption/element__caption.css);
 @import url(../blocks/element/__like-button/element__like-button.css);
 @import url(../blocks/element/__trash-button/element__trash-button.css);
+@import url(../blocks/element/__like-button/_active/element__like-button_active.css);
 
 /* Секция Footer */
 @import url(../blocks/page/__footer/page__footer.css);
