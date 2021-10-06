@@ -1,6 +1,8 @@
 
 .element__image {
-  object-fit: contain;
+  width: 282px;
+  height: 282px;
+  object-fit: cover;
   background-color: #C4C4C4;
   border-radius: 10px 10px 0 0;
   vertical-align: middle;

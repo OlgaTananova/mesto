@@ -30,6 +30,7 @@
 @import url(../blocks/element/__description/element__description.css);
 @import url(../blocks/element/__caption/element__caption.css);
 @import url(../blocks/element/__like-button/element__like-button.css);
+@import url(../blocks/element/__trash-button/element__trash-button.css);
 
 /* Секция Footer */
 @import url(../blocks/page/__footer/page__footer.css);

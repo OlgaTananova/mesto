@@ -23,7 +23,7 @@
   </section>
   <section class="elements-section content__elements-section" aria-label="Фоторамка">
     <ul class="elements">
-      <li class="element">
+      <!--<li class="element">
         <img class="element__image" src="images/element_photo_saint-petersburg.jpg" alt="Фото: Санкт-Петербург">
         <div class="element__description">
           <h2 class="element__caption">Санкт-Петербург</h2>
@@ -64,7 +64,7 @@
           <h2 class="element__caption">Алтaй, озеро Телецкое</h2>
           <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
         </div>
-      </li>
+       </li> -->
     </ul>
   </section>
 </main>
@@ -84,6 +84,16 @@
     </form>
   </div>
 </div>
+<template id="element-template">
+  <li class="element">
+    <img class="element__image" alt="Фото карточки">
+    <div class="element__description">
+      <h2 class="element__caption"></h2>
+      <button type="button" class="element__like-button" aria-label="Кнопка лайка фотографии"></button>
+    </div>
+    <button type="button" class="element__trash-button" aria-label="Кнопка удаления фотографии"></button>
+  </li>
+</template>
 <script src="./scripts/script.js"></script>
 </body>
 </html>
