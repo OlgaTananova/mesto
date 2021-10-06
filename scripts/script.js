@@ -35,12 +35,12 @@ let cardName;
 let cardImageLink;
 // Массив карточек для загрузке на странице
 const initialCards = [
-  {name: 'Архыз', link:  '../images/element_photo_arhyz.jpg',},
-  {name: 'Челябинская область', link: '../images/element_photo_chelyabinsk-oblast.jpg'},
-  {name: 'Иваново', link: '../images/element_photo_ivanovo.jpg'},
-  {name: 'Камчатка', link: '../images/element_photo_kamchatka.jpg'},
-  {name: 'Холмогорский район', link: '../images/element_photo_kholmogorsky-rayon.jpg'},
-  {name: 'Байкал', link: '../images/element_photo_baikal_2.jpg'}];
+  {name: 'Архыз', link:  'images/element_photo_arhyz.jpg',},
+  {name: 'Челябинская область', link: 'images/element_photo_chelyabinsk-oblast.jpg'},
+  {name: 'Иваново', link: 'images/element_photo_ivanovo.jpg'},
+  {name: 'Камчатка', link: 'images/element_photo_kamchatka.jpg'},
+  {name: 'Холмогорский район', link: 'images/element_photo_kholmogorsky-rayon.jpg'},
+  {name: 'Байкал', link: 'images/element_photo_baikal_2.jpg'}];
 
 /* Функция открытия попапа редактирования профиля (автоматически вставляются
 значения из профайла */
