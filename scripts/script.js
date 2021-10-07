@@ -39,6 +39,8 @@ const viewImagePopupClsBtn = viewImagePopup.querySelector('.popup__close-button_
 const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
 //Выбираем подпись фото в попапе просмотра фотографий
 const viewImagePopupImgCptn = viewImagePopup.querySelector('.popup__image-caption');
+// Выбираем шаблон для клонирования карточки
+const cardElementTemplate = document.querySelector('#element-template').content;
 let cardName; //Переменная, куда записываем название карточки, введенное пользователем
 let cardImageLink; // Переменная, куда записываем ссылку на картинку, введенную пользователем
 // Массив карточек для загрузке на странице
@@ -79,7 +81,6 @@ function formSubmitHandler(event) {
 
 /* Функция создания карточки, лайка, удаления  карточки, открытия попапа просмотра фото (по клику) */
 function addCardElement (cardName, cardImageLink) {
-  const cardElementTemplate = document.querySelector('#element-template').content;
   const cardElement = cardElementTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElement.querySelector('.element__image');
   const cardCaption = cardElement.querySelector('.element__caption');
