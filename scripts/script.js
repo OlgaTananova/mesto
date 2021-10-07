@@ -31,10 +31,18 @@ const cardDescriptionInput = addCardFormElement.querySelector('.popup__form-item
 const cardImageLinkInput = addCardFormElement.querySelector('.popup__form-item_type_image-link');
 // Выбираем кнопку закрытия попапа добавления карточек
 const addCardPopupClsBtn = addCardPopup.querySelector('.popup__close-button_type_add-card-form');
-let cardName;
-let cardImageLink;
+//Выбираем попап просмотра фотографий
+const viewImagePopup = document.querySelector('.popup_type_image-view');
+// Выбираем кнопку закрытия попапа просмотра фотографий
+const viewImagePopupClsBtn = viewImagePopup.querySelector('.popup__close-button_type_image-view');
+// Выбираем окно для вставки фото в попапе просмотра фотографий
+const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
+//Выбираем подпись фото в попапе просмотра фотографий
+const viewImagePopupImgCptn = viewImagePopup.querySelector('.popup__image-caption');
+let cardName; //Переменная, куда записываем название карточки, введенное пользователем
+let cardImageLink; // Переменная, куда записываем ссылку на картинку, введенную пользователем
 // Массив карточек для загрузке на странице
-const initialCards = [
+let initialCards = [
   {name: 'Архыз', link:  'images/element_photo_arhyz.jpg',},
   {name: 'Челябинская область', link: 'images/element_photo_chelyabinsk-oblast.jpg'},
   {name: 'Иваново', link: 'images/element_photo_ivanovo.jpg'},
@@ -69,19 +77,32 @@ function formSubmitHandler(event) {
   closeEditProfilePopup();
 }
 
-/* Функция создания карточки, лайка и удаления  */
+/* Функция создания карточки, лайка, удаления  карточки, открытия попапа просмотра фото (по клику) */
 function addCardElement (cardName, cardImageLink) {
   const cardElementTemplate = document.querySelector('#element-template').content;
   const cardElement = cardElementTemplate.querySelector('.element').cloneNode(true);
-  cardElement.querySelector('.element__caption').textContent = cardName;
-  cardElement.querySelector('.element__image').src = cardImageLink;
-  cardElement.querySelector('.element__image').alt = `Фото:${cardName}`;
+  const cardImage = cardElement.querySelector('.element__image');
+  const cardCaption = cardElement.querySelector('.element__caption');
+  const cardDeleteBtn = cardElement.querySelector('.element__trash-button');
+  const cardLikeBtn = cardElement.querySelector('.element__like-button');
+  cardCaption.textContent = cardName;
+  cardImage.src = cardImageLink;
+  cardImage.alt = `Фото:${cardName}`;
   cardElementContainer.prepend(cardElement);
-  cardElement.querySelector('.element__trash-button').addEventListener('click', function (){
-    cardElement.remove();
+  cardDeleteBtn.addEventListener('click', function () {
+    cardElement.remove()
   });
-  cardElement.querySelector('.element__like-button').addEventListener('click', function(event) {
+  cardLikeBtn.addEventListener('click', function(event) {
     event.target.classList.toggle('element__like-button_active');
+  });
+  cardImage.addEventListener('click', function () {
+    viewImagePopup.classList.add('popup_opened');
+    viewImagePopupImg.src = cardImage.src;
+    viewImagePopupImg.alt = cardImage.alt;
+    viewImagePopupImgCptn.textContent = cardCaption.textContent;
+  });
+  viewImagePopupClsBtn.addEventListener('click', function () {
+    viewImagePopup.classList.remove('popup_opened');
   });
 }
 
@@ -98,6 +119,8 @@ function loadInitialCards (array) {
 function uploadCardHandler (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   addCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
+  cardDescriptionInput.value = "";
+  cardImageLinkInput.value = "";
   toggleAddCardPopup()
 }
 
@@ -110,4 +133,3 @@ editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click',toggleAddCardPopup);
 addCardPopupClsBtn.addEventListener('click', toggleAddCardPopup);
 addCardFormElement.addEventListener('submit', uploadCardHandler);
-
