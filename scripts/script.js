@@ -1,4 +1,5 @@
 /** Элементы (кнопки и блоки) **/
+
 // Выбираем блок профиля пользователя
 const profile = document.querySelector('.profile');
 // Выбираем элемент с именем пользователя
@@ -38,7 +39,7 @@ const viewImagePopupClsBtn = viewImagePopup.querySelector('.popup__close-button_
 // Выбираем окно для вставки фото в попапе просмотра фотографий
 const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
 //Выбираем подпись фото в попапе просмотра фотографий
-const viewImagePopupImgCptn = viewImagePopup.querySelector('.popup__image-caption');
+const viewImagePopupImgCaption = viewImagePopup.querySelector('.popup__image-caption');
 // Выбираем шаблон для клонирования карточки
 const cardElementTemplate = document.querySelector('#element-template').content;
 let cardName; //Переменная, куда записываем название карточки, введенное пользователем
@@ -52,18 +53,19 @@ let initialCards = [
   {name: 'Карачаево-Черкессия', link: 'images/element_photo_karachaevsk.jpg'},
   {name: 'Байкал', link: 'images/element_photo_baikal_2.jpg'}];
 
-/* Функция открытия попапа редактирования профиля (автоматически вставляются
-значения из профайла */
-function openEditProfilePopup() {
-  editProfilePopup.classList.add('popup_opened');
+/** Функциональность редактирования профиля пользователя**/
+
+/* Функция открытия попапа редактирования профиля и автоматической вставки
+значений из профайла */
+function renderEditProfilePopup() {
+  toggleEditProfilePopup();
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
 }
 
-
-// Функция закрытия попапа редактирования профиля
-function closeEditProfilePopup() {
-  editProfilePopup.classList.remove('popup_opened');
+// Функция закрытия/открытия попапа редактирования профиля
+function toggleEditProfilePopup() {
+  editProfilePopup.classList.toggle('popup_opened');
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы (автоматически
@@ -72,15 +74,23 @@ function formSubmitHandler(event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
-  closeEditProfilePopup();
+  toggleEditProfilePopup();
 }
 
-/*Функция открытия попапа добавления карточки с фото */
+/** Функциональность редактирования карточек с фото **/
+
+//Функция открытия попапа добавления карточки с фото
 function toggleAddCardPopup() {
   addCardPopup.classList.toggle('popup_opened');
 }
 
-/* Функция создания карточки, лайка, удаления  карточки, открытия попапа просмотра фото (по клику) */
+//Функция открытия/закрытия попапа с фото карточки
+function toggleImagePopup () {
+  viewImagePopup.classList.toggle('popup_opened');
+}
+
+/* Функция создания карточки фото + (лайка, удаления  карточки, открытия попапа
+просмотра фото карточки (по клику) */
 function addCardElement (cardName, cardImageLink) {
   const cardElement = cardElementTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElement.querySelector('.element__image');
@@ -91,24 +101,36 @@ function addCardElement (cardName, cardImageLink) {
   cardImage.src = cardImageLink;
   cardImage.alt = `Фото:${cardName}`;
   cardElementContainer.prepend(cardElement);
+  // Удаление карточки по клику на кпопку удаления
   cardDeleteBtn.addEventListener('click', function () {
-    cardElement.remove()
+    cardElement.remove();
   });
-  cardLikeBtn.addEventListener('click', function(event) {
+  // Лайк карточки по клику на кнопку лайка
+  cardLikeBtn.addEventListener('click', function (event) {
     event.target.classList.toggle('element__like-button_active');
   });
+  // Открытие попапа просмотра фото, подгрузка изображения и подписи
   cardImage.addEventListener('click', function () {
-    viewImagePopup.classList.add('popup_opened');
+    toggleImagePopup()
     viewImagePopupImg.src = cardImage.src;
     viewImagePopupImg.alt = cardImage.alt;
-    viewImagePopupImgCptn.textContent = cardCaption.textContent;
+    viewImagePopupImgCaption.textContent = cardCaption.textContent;
   });
-  viewImagePopupClsBtn.addEventListener('click', function () {
-    viewImagePopup.classList.remove('popup_opened');
-  });
+  // Закрытие попапа просмотра фото по клику на кнопку закрытия
+  viewImagePopupClsBtn.addEventListener('click', toggleImagePopup);
 }
 
-/* Функция автоматической подгрузки карточек при открытии страницы */
+//Функция добавления карточки на страницу пользователем
+function uploadCardHandler (event) {
+  event.preventDefault(); // прервать стандартное поведение браузера
+  addCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
+  cardDescriptionInput.value = "";
+  cardImageLinkInput.value = "";
+  toggleAddCardPopup();
+}
+
+/** Автоматическая загрузка карточек при открытии страницы **/
+
 function renderCards (array) {
   array.forEach((item, index) => {
     cardName = array[index].name;
@@ -116,22 +138,14 @@ function renderCards (array) {
     addCardElement(cardName,cardImageLink);
   });
 }
+renderCards(initialCards); //Вызываем эту функцию при загрузке страницы
 
-/*Функция добавления карточки на страницу пользователем */
-function uploadCardHandler (event) {
-  event.preventDefault(); // прервать стандартное поведение браузера
-  addCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
-  cardDescriptionInput.value = "";
-  cardImageLinkInput.value = "";
-  toggleAddCardPopup()
-}
+/** Функции отслеживания поведения пользователя **/
 
-renderCards(initialCards);
-
-// Функции отслеживания поведения пользователя
-editProfileButton.addEventListener('click', openEditProfilePopup);
-popupEditProfileClsBtn.addEventListener('click', closeEditProfilePopup);
+editProfileButton.addEventListener('click', renderEditProfilePopup);
+popupEditProfileClsBtn.addEventListener('click', toggleEditProfilePopup);
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click',toggleAddCardPopup);
 addCardPopupClsBtn.addEventListener('click', toggleAddCardPopup);
 addCardFormElement.addEventListener('submit', uploadCardHandler);
+
