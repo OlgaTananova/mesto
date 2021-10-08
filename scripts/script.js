@@ -43,13 +43,13 @@ const viewImagePopupImgCptn = viewImagePopup.querySelector('.popup__image-captio
 const cardElementTemplate = document.querySelector('#element-template').content;
 let cardName; //Переменная, куда записываем название карточки, введенное пользователем
 let cardImageLink; // Переменная, куда записываем ссылку на картинку, введенную пользователем
-// Массив карточек для загрузке на странице
+// Массив карточек для загрузки на странице
 let initialCards = [
   {name: 'Архыз', link:  'images/element_photo_arhyz.jpg',},
   {name: 'Челябинская область', link: 'images/element_photo_chelyabinsk-oblast.jpg'},
-  {name: 'Иваново', link: 'images/element_photo_ivanovo.jpg'},
+  {name: 'Горный Алтай', link: 'images/element_photo_gorny-altay.jpg'},
   {name: 'Камчатка', link: 'images/element_photo_kamchatka.jpg'},
-  {name: 'Холмогорский район', link: 'images/element_photo_kholmogorsky-rayon.jpg'},
+  {name: 'Карачаево-Черкессия', link: 'images/element_photo_karachaevsk.jpg'},
   {name: 'Байкал', link: 'images/element_photo_baikal_2.jpg'}];
 
 /* Функция открытия попапа редактирования профиля (автоматически вставляются
@@ -60,10 +60,6 @@ function openEditProfilePopup() {
   jobInput.value = profileDescription.textContent;
 }
 
-/*Функция открытия попапа добавления карточки с фото */
-function toggleAddCardPopup() {
-  addCardPopup.classList.toggle('popup_opened');
-}
 
 // Функция закрытия попапа редактирования профиля
 function closeEditProfilePopup() {
@@ -77,6 +73,11 @@ function formSubmitHandler(event) {
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
   closeEditProfilePopup();
+}
+
+/*Функция открытия попапа добавления карточки с фото */
+function toggleAddCardPopup() {
+  addCardPopup.classList.toggle('popup_opened');
 }
 
 /* Функция создания карточки, лайка, удаления  карточки, открытия попапа просмотра фото (по клику) */
@@ -108,7 +109,7 @@ function addCardElement (cardName, cardImageLink) {
 }
 
 /* Функция автоматической подгрузки карточек при открытии страницы */
-function loadInitialCards (array) {
+function renderCards (array) {
   array.forEach((item, index) => {
     cardName = array[index].name;
     cardImageLink = array[index].link;
@@ -125,7 +126,7 @@ function uploadCardHandler (event) {
   toggleAddCardPopup()
 }
 
-loadInitialCards(initialCards);
+renderCards(initialCards);
 
 // Функции отслеживания поведения пользователя
 editProfileButton.addEventListener('click', openEditProfilePopup);
