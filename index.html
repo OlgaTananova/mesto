@@ -22,8 +22,7 @@
     <button type="button" class="profile__add-button" aria-label="Кнопка добавления фотографий"></button>
   </section>
   <section class="elements-section content__elements-section" aria-label="Фоторамка">
-    <ul class="elements">
-    </ul>
+    <ul class="elements"></ul>
   </section>
 </main>
 <footer class="footer page__footer">
@@ -35,10 +34,13 @@
             aria-label="Кнопка закрытия модального окна редактирования профиля"></button>
     <form class="popup__form popup__form_type_edit-profile-form" name="edit-profile-form">
       <h2 class="popup__form-heading">Редактировать профиль</h2>
-      <input type="text" class="popup__form-item popup__form-item_type_profile-name" name="name" placeholder="Жак-Ив Кусто">
+      <input type="text" class="popup__form-item popup__form-item_type_profile-name" name="name"
+             placeholder="Жак-Ив Кусто">
       <input type="text" class="popup__form-item popup__form-item_type_profile-description" name="description"
              placeholder="Исследователь океана">
-      <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_edit-profile-form">Сохранить</button>
+      <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_edit-profile-form">
+        Сохранить
+      </button>
     </form>
   </div>
 </div>
@@ -48,16 +50,19 @@
             aria-label="Кнопка закрытия модального окна добавления карточки"></button>
     <form class="popup__form popup__form_type_add-card-form" name="add-card-form">
       <h2 class="popup__form-heading">Новое место</h2>
-      <input type="text" class="popup__form-item popup__form-item_type_card-description" name="card-description" placeholder="Название">
+      <input type="text" class="popup__form-item popup__form-item_type_card-description" name="card-description"
+             placeholder="Название">
       <input type="text" class="popup__form-item popup__form-item_type_image-link" name="image-link"
              placeholder="Ссылка на картинку">
-      <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_add-card-form">Создать</button>
+      <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_add-card-form">Создать
+      </button>
     </form>
   </div>
 </div>
 <div class="popup popup_type_image-view">
   <div class="popup__container popup__container_type_image-view">
-    <button type="button" class="popup__close-button popup__close-button_type_image-view" aria-label="Кнопка закрытия модального окна просмотра фотографий"></button>
+    <button type="button" class="popup__close-button popup__close-button_type_image-view"
+            aria-label="Кнопка закрытия модального окна просмотра фотографий"></button>
     <figure class="popup__image-container">
       <img src="" alt="" class="popup__image">
       <figcaption class="popup__image-caption"></figcaption>
