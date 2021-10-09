@@ -64,7 +64,7 @@ function renderEditProfilePopup() {
 
 // Функция открытия попапов
 function openPopup(popup) {
-  popup.classList.toggle('popup_opened');
+  popup.classList.add('popup_opened');
 }
 // Функция закрытия попапов
 function closePopup (popup) {
@@ -111,9 +111,7 @@ function createCardElement (cardName, cardImageLink) {
     viewImagePopupImgCaption.textContent = cardCaption.textContent;
   });
   // Закрытие попапа просмотра фото по клику на кнопку закрытия
-  viewImagePopupClsBtn.addEventListener('click', function () {
-    closePopup(viewImagePopup);
-  });
+  viewImagePopupClsBtn.addEventListener('click', closePopup.bind(this, viewImagePopup));
   return cardElement;
 }
 //
@@ -142,15 +140,9 @@ renderCards(initialCards); //Вызываем эту функцию при за�
 /** Функции отслеживания поведения пользователя **/
 
 editProfileButton.addEventListener('click', renderEditProfilePopup);
-popupEditProfileClsBtn.addEventListener('click', function () {
-  closePopup(editProfilePopup);
-});
+popupEditProfileClsBtn.addEventListener('click', closePopup.bind(this, editProfilePopup));
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
-addCardButton.addEventListener('click', function () {
-  openPopup(addCardPopup);
-});
-addCardPopupClsBtn.addEventListener('click', function () {
-  closePopup(addCardPopup);
-});
+addCardButton.addEventListener('click', openPopup.bind (this, addCardPopup));
+addCardPopupClsBtn.addEventListener('click', closePopup.bind (this, addCardPopup));
 addCardFormElement.addEventListener('submit', uploadCardHandler);
 
