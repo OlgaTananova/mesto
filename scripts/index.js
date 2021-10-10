@@ -42,7 +42,8 @@ const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
 const viewImagePopupImgCaption = viewImagePopup.querySelector('.popup__image-caption');
 // Выбираем шаблон для клонирования карточки
 const cardElementTemplate = document.querySelector('#element-template').content;
-
+// Переменная для создаваемых карточек
+let card;
 // Массив карточек для загрузки на странице
 const initialCards = [
   {name: 'Архыз', link:  'images/element_photo_arhyz.jpg',},
@@ -62,11 +63,11 @@ function renderEditProfilePopup() {
   jobInput.value = profileDescription.textContent;
 }
 
-// Функция открытия попапов
+// Функция открытия для всех попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
-// Функция закрытия попапов
+// Функция закрытия для всех попапов
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
 }
@@ -84,8 +85,6 @@ function formSubmitHandler(event) {
 
 /* Функция создания карточки фото + (лайка, удаления  карточки, открытия попапа
 просмотра фото карточки (по клику) */
-
-
 function createCardElement (cardName, cardImageLink) {
   const cardElement = cardElementTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElement.querySelector('.element__image');
@@ -96,33 +95,34 @@ function createCardElement (cardName, cardImageLink) {
   cardImage.src = cardImageLink;
   cardImage.alt = `Фото:${cardName}`;
   // Удаление карточки по клику на кпопку удаления
-  cardDeleteBtn.addEventListener('click', function () {
-    cardElement.remove();
-  });
+  cardDeleteBtn.addEventListener('click', () => cardElement.remove());
   // Лайк карточки по клику на кнопку лайка
-  cardLikeBtn.addEventListener('click', function (event) {
+  cardLikeBtn.addEventListener('click', (event) => {
     event.target.classList.toggle('element__like-button_active');
   });
   // Открытие попапа просмотра фото, подгрузка изображения и подписи
-  cardImage.addEventListener('click', function () {
+  cardImage.addEventListener('click',  () => {
     openPopup(viewImagePopup);
     viewImagePopupImg.src = cardImage.src;
     viewImagePopupImg.alt = cardImage.alt;
     viewImagePopupImgCaption.textContent = cardCaption.textContent;
   });
   // Закрытие попапа просмотра фото по клику на кнопку закрытия
-  viewImagePopupClsBtn.addEventListener('click', closePopup.bind(this, viewImagePopup));
+  viewImagePopupClsBtn.addEventListener('click', () => closePopup(viewImagePopup));
   return cardElement;
 }
-//
+
+// Функция добавления карточки на страницу
 function addCardElement (card) {
   cardElementContainer.prepend(card);
 }
 
-//Функция добавления карточки на страницу пользователем
+/*Функция добавления карточки на страницу пользователем через форму
+ (автоматически закрывает попап) */
 function uploadCardHandler (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
-  addCardElement(createCardElement(cardDescriptionInput.value, cardImageLinkInput.value));
+  card = createCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
+  addCardElement(card);
   cardDescriptionInput.value = "";
   cardImageLinkInput.value = "";
   closePopup(addCardPopup);
@@ -132,7 +132,8 @@ function uploadCardHandler (event) {
 
 function renderCards (array) {
   array.forEach((item) => {
-    addCardElement(createCardElement(item.name,item.link));
+    card = createCardElement(item.name,item.link);
+    addCardElement(card);
   });
 }
 renderCards(initialCards); //Вызываем эту функцию при загрузке страниц
@@ -140,9 +141,9 @@ renderCards(initialCards); //Вызываем эту функцию при за�
 /** Функции отслеживания поведения пользователя **/
 
 editProfileButton.addEventListener('click', renderEditProfilePopup);
-popupEditProfileClsBtn.addEventListener('click', closePopup.bind(this, editProfilePopup));
+popupEditProfileClsBtn.addEventListener('click', () => closePopup(editProfilePopup));
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
-addCardButton.addEventListener('click', openPopup.bind (this, addCardPopup));
-addCardPopupClsBtn.addEventListener('click', closePopup.bind (this, addCardPopup));
+addCardButton.addEventListener('click', () => openPopup(addCardPopup));
+addCardPopupClsBtn.addEventListener('click', () => closePopup(addCardPopup));
 addCardFormElement.addEventListener('submit', uploadCardHandler);
 
