@@ -130,8 +130,9 @@ function uploadCardHandler (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   card = createCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
   addCardElement(card);
-  cardDescriptionInput.value = "";
-  cardImageLinkInput.value = "";
+  // cardDescriptionInput.value = "";
+  // cardImageLinkInput.value = "";
+  addCardFormElement.reset();
   closePopup(addCardPopup);
 }
 
@@ -145,12 +146,26 @@ function renderCards (array) {
 }
 renderCards(initialCards); //Вызываем эту функцию при загрузке страницы
 
+
 /** Функции отслеживания поведения пользователя **/
 
+//Функция закрытия попапа по клику на оверлей или кнопку закрытия
+function setClosePopupsEventListeners() {
+  const popupList = Array.from(document.querySelectorAll('.popup'));
+  popupList.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup') ||
+        evt.target.classList.contains('popup__close-button')
+        || evt.target.classList.contains('popup__container')) {
+        closePopup(popup);
+      }
+    });
+  });
+}
+setClosePopupsEventListeners();
 editProfileButton.addEventListener('click', renderEditProfilePopup);
-popupEditProfileClsBtn.addEventListener('click', () => closePopup(editProfilePopup));
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click', () => openPopup(addCardPopup));
-addCardPopupClsBtn.addEventListener('click', () => closePopup(addCardPopup));
 addCardFormElement.addEventListener('submit', uploadCardHandler);
+
 
