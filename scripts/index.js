@@ -12,8 +12,6 @@ const editProfileButton = profile.querySelector('.profile__edit-button');
 const addCardButton = profile.querySelector('.profile__add-button');
 // Выбираем блок со попапом редактирования профиля
 const editProfilePopup = document.querySelector('.popup_type_edit-profile-form');
-// Выбираем кнопку закрытия попапа редактирования профиля
-const popupEditProfileClsBtn = editProfilePopup.querySelector('.popup__close-button_type_edit-profile-form');
 // Выбираем форму редактирования профиля
 const editProfileFormElement = editProfilePopup.querySelector('.popup__form_type_edit-profile-form');
 // Выбираем поле с именем пользователя
@@ -30,8 +28,6 @@ const addCardFormElement = addCardPopup.querySelector('.popup__form_type_add-car
 const cardDescriptionInput = addCardFormElement.querySelector('.popup__form-item_type_card-description');
 //Выбираем поле ввода для ввода ссылки на изображение карточки в попапе добавления карточек
 const cardImageLinkInput = addCardFormElement.querySelector('.popup__form-item_type_image-link');
-// Выбираем кнопку закрытия попапа добавления карточек
-const addCardPopupClsBtn = addCardPopup.querySelector('.popup__close-button_type_add-card-form');
 //Выбираем попап просмотра фотографий
 const viewImagePopup = document.querySelector('.popup_type_image-view');
 // Выбираем кнопку закрытия попапа просмотра фотографий
@@ -158,19 +154,19 @@ function closePopupByClickOnOverlay(event) {
   if (event.target.classList.contains('popup') ||
     event.target.classList.contains('popup__close-button')
     || event.target.classList.contains('popup__container')) {
-    let popup = event.target.closest('.popup')
+    const popup = event.target.closest('.popup');
     closePopup(popup);
   }
 }
 
 // Функция закрытия попапа по нажатию на Esc
 function closePopupByPressOnEsc(event) {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      let popup = document.querySelector('.popup_opened');
-      closePopup(popup);
-    }
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
   }
+}
 
 editProfileButton.addEventListener('click', renderEditProfilePopup);
 editProfileFormElement.addEventListener('submit', formSubmitHandler);

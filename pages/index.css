@@ -53,3 +53,6 @@
 @import url(../blocks/popup/__image-container/popup__image-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__image-caption/popup__image-caption.css);
+@import url(../blocks/popup/__input-error/popup__input-error.css);
+@import url(../blocks/popup/__form-item/_invalid/popup__form-item_invalid.css);
+@import url(../blocks/popup/__form-submit-button/_inactive/popuo__form-submit-button_inactive.css);
