@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   display: flex;
-  visibility: hidden;
+  pointer-events: none;
   opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
+  transition: pointer-events 0s, opacity 0.5s linear;
 }

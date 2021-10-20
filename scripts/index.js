@@ -66,10 +66,14 @@ function renderEditProfilePopup() {
 // Функция открытия для всех попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', closePopupByClickOnOverlay);
+  window.addEventListener('keydown', closePopupByPressOnEsc);
 }
 // Функция закрытия для всех попапов
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closePopupByClickOnOverlay);
+  window.removeEventListener('keydown', closePopupByPressOnEsc);
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы
@@ -149,20 +153,25 @@ renderCards(initialCards); //Вызываем эту функцию при за�
 
 /** Функции отслеживания поведения пользователя **/
 
-//Функция закрытия попапа по клику на оверлей или кнопку закрытия
-function setClosePopupsEventListeners() {
-  const popupList = Array.from(document.querySelectorAll('.popup'));
-  popupList.forEach((popup) => {
-    popup.addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup') ||
-        evt.target.classList.contains('popup__close-button')
-        || evt.target.classList.contains('popup__container')) {
-        closePopup(popup);
-      }
-    });
-  });
+//Функция закрытия попапа по клику на оверлей
+function closePopupByClickOnOverlay(event) {
+  if (event.target.classList.contains('popup') ||
+    event.target.classList.contains('popup__close-button')
+    || event.target.classList.contains('popup__container')) {
+    let popup = event.target.closest('.popup')
+    closePopup(popup);
+  }
 }
-setClosePopupsEventListeners();
+
+// Функция закрытия попапа по нажатию на Esc
+function closePopupByPressOnEsc(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      let popup = document.querySelector('.popup_opened');
+      closePopup(popup);
+    }
+  }
+
 editProfileButton.addEventListener('click', renderEditProfilePopup);
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click', () => openPopup(addCardPopup));
