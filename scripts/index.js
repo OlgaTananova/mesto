@@ -66,10 +66,14 @@ function renderEditProfilePopup() {
 // Функция открытия для всех попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', closePopupByClickOnOverlay);
+  window.addEventListener('keydown', closePopupByPressOnEsc);
 }
 // Функция закрытия для всех попапов
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closePopupByClickOnOverlay);
+  window.removeEventListener('keydown', closePopupByPressOnEsc);
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы
@@ -130,8 +134,9 @@ function uploadCardHandler (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   card = createCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
   addCardElement(card);
-  cardDescriptionInput.value = "";
-  cardImageLinkInput.value = "";
+  // cardDescriptionInput.value = "";
+  // cardImageLinkInput.value = "";
+  addCardFormElement.reset();
   closePopup(addCardPopup);
 }
 
@@ -145,12 +150,31 @@ function renderCards (array) {
 }
 renderCards(initialCards); //Вызываем эту функцию при загрузке страницы
 
+
 /** Функции отслеживания поведения пользователя **/
 
+//Функция закрытия попапа по клику на оверлей
+function closePopupByClickOnOverlay(event) {
+  if (event.target.classList.contains('popup') ||
+    event.target.classList.contains('popup__close-button')
+    || event.target.classList.contains('popup__container')) {
+    let popup = event.target.closest('.popup')
+    closePopup(popup);
+  }
+}
+
+// Функция закрытия попапа по нажатию на Esc
+function closePopupByPressOnEsc(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      let popup = document.querySelector('.popup_opened');
+      closePopup(popup);
+    }
+  }
+
 editProfileButton.addEventListener('click', renderEditProfilePopup);
-popupEditProfileClsBtn.addEventListener('click', () => closePopup(editProfilePopup));
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click', () => openPopup(addCardPopup));
-addCardPopupClsBtn.addEventListener('click', () => closePopup(addCardPopup));
 addCardFormElement.addEventListener('submit', uploadCardHandler);
+
 
