@@ -1,5 +1,6 @@
-/** Элементы (кнопки и блоки) **/
+/** Общий файл ** /
 
+/** Элементы (кнопки и блоки) **/
 // Выбираем блок профиля пользователя
 const profile = document.querySelector('.profile');
 // Выбираем элемент с именем пользователя
@@ -42,7 +43,7 @@ const cardElementTemplate = document.querySelector('#element-template').content;
 let card;
 // Массив карточек для загрузки на странице
 const initialCards = [
-  {name: 'Архыз', link:  'images/element_photo_arhyz.jpg',},
+  {name: 'Архыз', link: 'images/element_photo_arhyz.jpg',},
   {name: 'Челябинская область', link: 'images/element_photo_chelyabinsk-oblast.jpg'},
   {name: 'Горный Алтай', link: 'images/element_photo_gorny-altay.jpg'},
   {name: 'Камчатка', link: 'images/element_photo_kamchatka.jpg'},
@@ -64,10 +65,18 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
   popup.addEventListener('click', closePopupByClickOnOverlay);
   window.addEventListener('keydown', closePopupByPressOnEsc);
-  enableValidationOnAllForms();
+  enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__form-item',
+    submitButtonSelector: '.popup__form-submit-button',
+    inactiveButtonClass: 'popup__form-submit-button_inactive',
+    inputErrorClass: 'popup__form-item_invalid',
+    errorClass: 'popup__input-error_active'
+  }); // Включаем валидацию форм
 }
+
 // Функция закрытия для всех попапов
-function closePopup (popup) {
+function closePopup(popup) {
   popup.classList.remove('popup_opened');
   popup.removeEventListener('click', closePopupByClickOnOverlay);
   window.removeEventListener('keydown', closePopupByPressOnEsc);
@@ -86,7 +95,7 @@ function formSubmitHandler(event) {
 
 /* Функция создания карточки фото + (лайка, удаления  карточки, открытия попапа
    просмотра фото карточки (по клику) */
-function createCardElement (cardName, cardImageLink) {
+function createCardElement(cardName, cardImageLink) {
   const cardElement = cardElementTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElement.querySelector('.element__image');
   const cardCaption = cardElement.querySelector('.element__caption');
@@ -112,6 +121,7 @@ function createCardElement (cardName, cardImageLink) {
     viewImagePopupImg.alt = cardImage.alt;
     viewImagePopupImgCaption.textContent = cardCaption.textContent;
   }
+
   cardImage.addEventListener('click', renderViewImagePopup)
 
   // Закрытие попапа просмотра фото по клику на кнопку закрытия
@@ -121,13 +131,13 @@ function createCardElement (cardName, cardImageLink) {
 }
 
 // Функция добавления карточки на страницу
-function addCardElement (card) {
+function addCardElement(card) {
   cardElementContainer.prepend(card);
 }
 
 /* Функция добавления карточки на страницу пользователем через форму
  (автоматически закрывает попап) */
-function uploadCardHandler (event) {
+function uploadCardHandler(event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   card = createCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
   addCardElement(card);
@@ -137,12 +147,13 @@ function uploadCardHandler (event) {
 
 /** Автоматическая загрузка карточек при открытии страницы **/
 
-function renderCards (array) {
+function renderCards(array) {
   array.forEach((item) => {
-    card = createCardElement(item.name,item.link);
+    card = createCardElement(item.name, item.link);
     addCardElement(card);
   });
 }
+
 renderCards(initialCards); //Вызываем эту функцию при загрузке страницы
 
 
@@ -167,6 +178,7 @@ function closePopupByPressOnEsc(event) {
   }
 }
 
+// Другие слушатели
 editProfileButton.addEventListener('click', renderEditProfilePopup);
 editProfileFormElement.addEventListener('submit', formSubmitHandler);
 addCardButton.addEventListener('click', () => openPopup(addCardPopup));
