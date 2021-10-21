@@ -35,11 +35,11 @@
     <form class="popup__form popup__form_type_edit-profile-form" name="edit-profile-form" novalidate>
       <h2 class="popup__form-heading">Редактировать профиль</h2>
       <input type="text" class="popup__form-item popup__form-item_type_profile-name" name="name"
-             placeholder="Жак-Ив Кусто" id="name-input" minlength="2" maxlength="40">
-      <span class="popup__input-error name-input-error">Ошибка</span>
+             placeholder="Жак-Ив Кусто" id="name-input" minlength="2" maxlength="40" required>
+      <span class="popup__input-error name-input-error"></span>
       <input type="text" class="popup__form-item popup__form-item_type_profile-description" name="description"
-             placeholder="Исследователь океана" id="description-input" minlength="2" maxlength="200">
-      <span class="popup__input-error description-input-error">Ошибка</span>
+             placeholder="Исследователь океана" id="description-input" minlength="2" maxlength="200" required>
+      <span class="popup__input-error description-input-error"></span>
       <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_edit-profile-form">
         Сохранить
       </button>
@@ -53,11 +53,11 @@
     <form class="popup__form popup__form_type_add-card-form" name="add-card-form" novalidate>
       <h2 class="popup__form-heading">Новое место</h2>
       <input type="text" class="popup__form-item popup__form-item_type_card-description" name="card-description"
-             placeholder="Название" id="card-description">
-      <span class="popup__input-error card-description-input-error">Ошибка</span>
-      <input type="text" class="popup__form-item popup__form-item_type_image-link" name="image-link"
-             placeholder="Ссылка на картинку" id="image-link">
-      <span class="popup__input-error image-link-input-error">Ошибка</span>
+             placeholder="Название" id="card-description" minlength="2" maxlength="20" required>
+      <span class="popup__input-error card-description-error">Ошибка</span>
+      <input type="url" class="popup__form-item popup__form-item_type_image-link" name="image-link"
+             placeholder="Ссылка на картинку" id="image-link" required>
+      <span class="popup__input-error image-link-error">Ошибка</span>
       <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_add-card-form">Создать
       </button>
     </form>

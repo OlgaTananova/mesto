@@ -64,6 +64,7 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
   popup.addEventListener('click', closePopupByClickOnOverlay);
   window.addEventListener('keydown', closePopupByPressOnEsc);
+  enableValidationOnAllForms();
 }
 // Функция закрытия для всех попапов
 function closePopup (popup) {
@@ -130,8 +131,6 @@ function uploadCardHandler (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   card = createCardElement(cardDescriptionInput.value, cardImageLinkInput.value);
   addCardElement(card);
-  // cardDescriptionInput.value = "";
-  // cardImageLinkInput.value = "";
   addCardFormElement.reset();
   closePopup(addCardPopup);
 }
