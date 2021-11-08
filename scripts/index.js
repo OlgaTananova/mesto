@@ -1,10 +1,11 @@
-/***Общий файл***/
+/*** Общий файл ***/
 
-import {Card} from './Card.js'; // импорт модуля с классом Card
-import {FormValidator} from './FormValidator.js';
-import {closePopup, openPopup,} from './utils.js';
+import {Card} from './Card.js'; // импорт модуля с классом карточек
+import {FormValidator} from './FormValidator.js'; // импорт модуля с классом валидатора
+import {closePopup, openPopup,} from './utils.js'; // импорт общих функций
 
 /** Элементы (кнопки и блоки) **/
+
 // Элементы для добавления карточек
 // Блок с кнопками добавления карточек и редактирования профиля
 const profile = document.querySelector('.profile');
@@ -60,12 +61,13 @@ const object = {formSelector: '.popup__form',
   errorClass: 'popup__input-error_active',
   errorSelector: '.popup__input-error'};
 
-/** Функциональность редактирования профиля пользователя**/
 
 //Функция включения валидации формы
 function enableValidation (obj, formElement) {
   new FormValidator(obj, formElement).enableValidator();
 }
+
+/** Функциональность редактирования профиля пользователя **/
 
 /* Функция открытия попапа редактирования профиля и автоматической вставки
 значений из профайла */
@@ -73,7 +75,7 @@ function renderEditProfilePopup() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
   openPopup(editProfilePopup)
-  enableValidation(object, editProfileFormElement);
+  enableValidation(object, editProfileFormElement); // Включаем валидацию формы
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы
@@ -86,16 +88,17 @@ function formSubmitHandler(event) {
 }
 
 /** Функциональность карточек с фото **/
+
 // Функция открытия попапа добавления фото по клику на кнопку добавления
 function renderAddCardPopup() {
   openPopup(addCardPopup);
-  enableValidation(object, addCardFormElement);
+  enableValidation(object, addCardFormElement); // Включаем валидацию формы
 }
 
 /* Функция добавления карточки на страницу пользователем через форму
 (автоматически закрывает попап) */
 function uploadCardHandler(event) {
-  event.preventDefault(); // прервать стандартное поведение браузера
+  event.preventDefault();
   let card = new Card(cardTitleInput.value, cardImageLinkInput.value, cardTemplateSelector)
     .renderCard();
   cardElementContainer.prepend(card);
@@ -104,7 +107,6 @@ function uploadCardHandler(event) {
 }
 
 // Автоматическая загрузка карточек на страницу
-
 function renderCards(array) {
   array.forEach((item) => {
     const card = new Card(item.name, item.link,cardTemplateSelector).renderCard();

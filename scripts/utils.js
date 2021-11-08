@@ -1,3 +1,9 @@
+/** Файл с общими функциями для попапов **/
+
+// Прим. этот файл сделан по совету наставника, чтобы не экспортировать код
+// из общего файла index.js и импортировать его в дочерние файлы
+
+export const viewImagePopup = document.querySelector('.popup_type_image-view');
 
 // Функция открытия для всех попапов
 export function openPopup(popup) {
@@ -25,6 +31,7 @@ export function closePopupByPressOnEsc(event) {
     }
   }
 }
+
 //Функция закрытия попапа по клику на оверлей
 export function closePopupByClickOnOverlay(event) {
   const popup = event.target.closest('.popup');
@@ -39,6 +46,7 @@ export function closePopupByClickOnOverlay(event) {
     }
   }
 }
+
 // Функция очистки полей формы от ошибок валидации при закрытии формы без submit
 export function clearPreviousValidation(formElement) {
   const inputList = formElement.querySelectorAll('.popup__form-item');
