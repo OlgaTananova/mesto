@@ -1,5 +1,6 @@
 /** Функциональность редактирования карточек с фото **/
-import {closePopup, openPopup,} from './utils.js';
+
+import {closePopup, openPopup, viewImagePopup} from './utils.js';
 
 export class Card {
   constructor(cardTitle, cardImageLink, cardTemplateSelector) {
@@ -55,7 +56,6 @@ export class Card {
   }
 
   _openViewImagePopup(event) {
-    const viewImagePopup = document.querySelector('.popup_type_image-view');
     const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
     const viewImagePopupImgCaption = viewImagePopup
       .querySelector('.popup__image-caption');
@@ -67,7 +67,6 @@ export class Card {
   }
 
   _closeViewImagePopup() {
-    const viewImagePopup = document.querySelector('.popup_type_image-view');
     closePopup(viewImagePopup);
   }
 }

@@ -71,7 +71,7 @@ export class FormValidator {
     });
   }
 
-    enableValidator() {
+  enableValidator() {
     this._setEventListenersToAllInputFields();
   }
 }
