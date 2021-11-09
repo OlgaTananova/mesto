@@ -14,15 +14,34 @@ const addCardButton = profile.querySelector('.profile__add-button');
 // Попап с формой карточки
 const addCardPopup = document.querySelector('.popup_type_add-card-form');
 // Форма добавления карточки
-const addCardFormElement = addCardPopup.querySelector('.popup__form_type_add-card-form');
+const addCardFormElement = addCardPopup
+  .querySelector('.popup__form_type_add-card-form');
 // Поле ввода названия карточки
-const cardTitleInput = addCardFormElement.querySelector('.popup__form-item_type_card-description');
+const cardTitleInput = addCardFormElement
+  .querySelector('.popup__form-item_type_card-description');
 // Поле ввода ссылки на картинку карточки
-const cardImageLinkInput = addCardFormElement.querySelector('.popup__form-item_type_image-link');
+const cardImageLinkInput = addCardFormElement
+  .querySelector('.popup__form-item_type_image-link');
 // Блок для вставки карточек
 const cardElementContainer = document.querySelector('.elements');
 // Селектор шаблона карточки
 const cardTemplateSelector = '#element-template';
+
+// Прим. для ревьюера: согласно замечанию по статичность попапа просмотра фото
+// элементы этого попапа вынесла в global scope, хотя изначально предполагалось,
+// что в этот файл будет только импортироваться код из других модулей. Данные
+// элементы экспортируются в модуль Card, чтобы не дублировать код.
+
+// Попап просмотра фото карточки
+export const viewImagePopup = document.querySelector('.popup_type_image-view');
+// Кнопка закрытия попапа просмотра фото
+export const closeViewImagePopupBtn = viewImagePopup
+  .querySelector('.popup__close-button_type_image-view');
+// Фото в попапе просмотра фото
+export const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
+// Подпись фото в попапе просмотра фото
+export const viewImagePopupImgCaption = viewImagePopup
+  .querySelector('.popup__image-caption');
 
 // Элементы для редактирования профиля пользователя
 // Имя пользователя
@@ -61,12 +80,6 @@ const object = {formSelector: '.popup__form',
   errorClass: 'popup__input-error_active',
   errorSelector: '.popup__input-error'};
 
-
-//Функция включения валидации формы
-function enableValidation (obj, formElement) {
-  new FormValidator(obj, formElement).enableValidator();
-}
-
 /** Функциональность редактирования профиля пользователя **/
 
 /* Функция открытия попапа редактирования профиля и автоматической вставки
@@ -75,12 +88,19 @@ function renderEditProfilePopup() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
   openPopup(editProfilePopup)
-  enableValidation(object, editProfileFormElement); // Включаем валидацию формы
+  // Создаем экземпляр класса валидатора для формы
+  const editProfileValidator = new FormValidator(object, editProfileFormElement);
+  // Очищаем поля формы от результатов предыдущей валидации
+  editProfileValidator.clearPreviousValidation();
+  // Деактивируем кнопку отправки формы
+  editProfileValidator.toggleSubmitButtonState();
+  // Включаем валидацию
+  editProfileValidator.enableValidator();
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы
    (автоматически закрывает попап) */
-function formSubmitHandler(event) {
+function submitProfileForm (event) {
   event.preventDefault(); // прервать стандартное поведение браузера
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
@@ -92,15 +112,19 @@ function formSubmitHandler(event) {
 // Функция открытия попапа добавления фото по клику на кнопку добавления
 function renderAddCardPopup() {
   openPopup(addCardPopup);
-  enableValidation(object, addCardFormElement); // Включаем валидацию формы
+  // Прим. код ниже аналогичен коду в функции renderEditProfilePopup
+  const formAddCardValidator = new FormValidator(object, addCardFormElement);
+  formAddCardValidator.toggleSubmitButtonState();
+  formAddCardValidator.clearPreviousValidation();
+  formAddCardValidator.enableValidator();
 }
 
 /* Функция добавления карточки на страницу пользователем через форму
 (автоматически закрывает попап) */
 function uploadCardHandler(event) {
   event.preventDefault();
-  let card = new Card(cardTitleInput.value, cardImageLinkInput.value, cardTemplateSelector)
-    .renderCard();
+  const card = new Card(cardTitleInput.value, cardImageLinkInput.value, cardTemplateSelector)
+  .renderCard();
   cardElementContainer.prepend(card);
   addCardFormElement.reset();
   closePopup(addCardPopup);
@@ -119,7 +143,10 @@ renderCards(initialCards); //Вызываем эту функцию при за�
 /** Функции отслеживания поведения пользователя **/
 
 editProfileButton.addEventListener('click', renderEditProfilePopup);
-editProfileFormElement.addEventListener('submit', formSubmitHandler);
+editProfileFormElement.addEventListener('submit', submitProfileForm);
 addCardButton.addEventListener('click', renderAddCardPopup);
 addCardFormElement.addEventListener('submit', uploadCardHandler);
+closeViewImagePopupBtn.addEventListener('click', ()=> {
+  closePopup(viewImagePopup)}
+);
 

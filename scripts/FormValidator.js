@@ -16,6 +16,8 @@ export class FormValidator {
     this._inactiveButtonClass = inactiveButtonClass;
     this._inputErrorClass = inputErrorClass;
     this._errorClass = errorClass;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   _showInputError(inputField, errorMessage) {
@@ -49,29 +51,34 @@ export class FormValidator {
     });
   }
 
-  _toggleSubmitButtonState(inputList, submitButton) {
-    if (this._hasInvalidInput(inputList)) {
-      submitButton.classList.add(this._inactiveButtonClass);
-      submitButton.setAttribute('disabled', true);
+  toggleSubmitButtonState() {
+    if (this._hasInvalidInput(this._inputList)) {
+      this._submitButton.classList.add(this._inactiveButtonClass);
+      this._submitButton.setAttribute('disabled', true);
     } else {
-      submitButton.classList.remove(this._inactiveButtonClass);
-      submitButton.removeAttribute('disabled');
+      this._submitButton.classList.remove(this._inactiveButtonClass);
+      this._submitButton.removeAttribute('disabled');
     }
   }
 
   _setEventListenersToAllInputFields() {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const submitButton = this._formElement.querySelector(this._submitButtonSelector);
-    this._toggleSubmitButtonState(inputList, submitButton);
-    inputList.forEach((inputField) => {
+    this._inputList.forEach((inputField) => {
       inputField.addEventListener('input', () => {
         this._isValid(inputField);
-        this._toggleSubmitButtonState(inputList, submitButton);
+        this.toggleSubmitButtonState(this._inputList, this._submitButton);
       });
     });
   }
 
   enableValidator() {
     this._setEventListenersToAllInputFields();
+  }
+
+  clearPreviousValidation() {
+    this._inputList.forEach((inputField) => {
+      inputField.value = '';
+      inputField.classList.remove('popup__form-item_invalid');
+      inputField.nextElementSibling.textContent = '';
+    });
   }
 }
