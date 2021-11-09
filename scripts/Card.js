@@ -1,73 +1,65 @@
 /** Функциональность редактирования карточек с фото **/
 
-import {closePopup, openPopup, viewImagePopup} from './utils.js';
+import {openPopup} from './utils.js';
+import {viewImagePopup, viewImagePopupImg, viewImagePopupImgCaption} from
+    './index.js'
 
 export class Card {
   constructor(cardTitle, cardImageLink, cardTemplateSelector) {
     this._cardTitle = cardTitle;
     this._cardImageLink = cardImageLink;
     this._cardTemplateSelector = cardTemplateSelector;
-  }
-
-  _createCard() {
+    // Прим. для ревьюера: вынесла элементы ниже в конструктор, чтобы не
+    // определять их в отдельных методах класса (по аналогии с классом FormValidator).
     this._card = document
       .querySelector(this._cardTemplateSelector)
       .content
       .querySelector('.element')
       .cloneNode(true);
-    const cardImage = this._card.querySelector('.element__image');
-    const cardCaption = this._card.querySelector('.element__caption');
-    cardCaption.textContent = this._cardTitle;
-    cardImage.src = this._cardImageLink;
-    cardImage.alt = `Фото:${this._cardTitle}`;
+    this._cardImage = this._card.querySelector('.element__image');
+    this._cardCaption = this._card.querySelector('.element__caption');
+    this._cardLikeBtn = this._card.querySelector('.element__like-button');
+    this._cardDeleteBtn = this._card.querySelector('.element__trash-button');
+  }
+
+  _createCard() {
+    this._cardCaption.textContent = this._cardTitle;
+    this._cardImage.src = this._cardImageLink;
+    this._cardImage.alt = `Фото:${this._cardTitle}`;
     this._setEventListeners();
     return this._card;
   }
 
   _setEventListeners() {
-    const cardLikeBtn = this._card.querySelector('.element__like-button');
-    const cardDeleteBtn = this._card.querySelector('.element__trash-button');
-    const cardImage = this._card.querySelector('.element__image');
-    const viewImagePopup = document.querySelector('.popup_type_image-view');
-    const closeViewImagePopupBtn = viewImagePopup
-      .querySelector('.popup__close-button_type_image-view');
-    cardLikeBtn.addEventListener('click', (event) => {
-      this._like(event)
+    this._cardLikeBtn.addEventListener('click', () => {
+      this._like(this._card)
     });
-    cardDeleteBtn.addEventListener('click', (event) => {
-      this._deleteCard(event)
+    this._cardDeleteBtn.addEventListener('click', () => {
+      this._deleteCard(this._card)
     });
-    cardImage.addEventListener('click', (event) => {
-      this._openViewImagePopup(event)
+    this._cardImage.addEventListener('click', () => {
+      this._openViewImagePopup(this._card);
     });
-    closeViewImagePopupBtn.addEventListener('click', this._closeViewImagePopup);
   }
 
   renderCard() {
     return this._createCard();
   }
 
-  _like(event) {
-    event.target.classList.toggle('element__like-button_active');
+  _like() {
+    this._cardLikeBtn.classList.toggle('element__like-button_active');
   }
 
-  _deleteCard(event) {
-    event.target.closest('.element').remove();
+  _deleteCard() {
+    this._card.remove();
+    this._card = null;
   }
 
-  _openViewImagePopup(event) {
-    const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
-    const viewImagePopupImgCaption = viewImagePopup
-      .querySelector('.popup__image-caption');
-    viewImagePopupImg.src = event.target.src;
-    viewImagePopupImg.alt = event.target.alt;
-    viewImagePopupImgCaption.textContent = event.target.parentNode
-      .querySelector('.element__caption').textContent;
+  _openViewImagePopup() {
+    viewImagePopupImg.src = this._cardImage.src;
+    viewImagePopupImg.alt = this._cardImage.alt;
+    viewImagePopupImgCaption.textContent = this._cardCaption.textContent;
     openPopup(viewImagePopup);
-  }
-
-  _closeViewImagePopup() {
-    closePopup(viewImagePopup);
   }
 }
 
