@@ -1,7 +1,16 @@
 /** Файл с общими функциями для попапов **/
 
-// Прим. для ревьюера этот файл сделан по совету наставника, чтобы не
-// экспортировать код из общего файла index.js и импортировать его в дочерние файлы.
+// Элементы попапа просмотра фото карточки
+// Попап просмотра фото карточки
+export const viewImagePopup = document.querySelector('.popup_type_image-view');
+// Кнопка закрытия попапа просмотра фото
+export const closeViewImagePopupBtn = viewImagePopup
+  .querySelector('.popup__close-button_type_image-view');
+// Фото в попапе просмотра фото
+export const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
+// Подпись фото в попапе просмотра фото
+export const viewImagePopupImgCaption = viewImagePopup
+  .querySelector('.popup__image-caption');
 
 // Функция открытия для всех попапов
 export function openPopup(popup) {

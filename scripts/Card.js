@@ -1,16 +1,13 @@
 /** Функциональность редактирования карточек с фото **/
 
-import {openPopup} from './utils.js';
-import {viewImagePopup, viewImagePopupImg, viewImagePopupImgCaption} from
-    './index.js'
+import {openPopup, viewImagePopup, viewImagePopupImg, viewImagePopupImgCaption}
+  from './utils.js';
 
 export class Card {
   constructor(cardTitle, cardImageLink, cardTemplateSelector) {
     this._cardTitle = cardTitle;
     this._cardImageLink = cardImageLink;
     this._cardTemplateSelector = cardTemplateSelector;
-    // Прим. для ревьюера: вынесла элементы ниже в конструктор, чтобы не
-    // определять их в отдельных методах класса (по аналогии с классом FormValidator).
     this._card = document
       .querySelector(this._cardTemplateSelector)
       .content
