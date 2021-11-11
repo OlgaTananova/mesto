@@ -2,7 +2,8 @@
 
 import {Card} from './Card.js'; // импорт модуля с классом карточек
 import {FormValidator} from './FormValidator.js'; // импорт модуля с классом валидатора
-import {closePopup, openPopup,} from './utils.js'; // импорт общих функций
+import {closePopup, openPopup, viewImagePopup, closeViewImagePopupBtn}
+  from './utils.js'; // импорт общих функций
 
 /** Элементы (кнопки и блоки) **/
 
@@ -26,22 +27,6 @@ const cardImageLinkInput = addCardFormElement
 const cardElementContainer = document.querySelector('.elements');
 // Селектор шаблона карточки
 const cardTemplateSelector = '#element-template';
-
-// Прим. для ревьюера: согласно замечанию по статичность попапа просмотра фото
-// элементы этого попапа вынесла в global scope, хотя изначально предполагалось,
-// что в этот файл будет только импортироваться код из других модулей. Данные
-// элементы экспортируются в модуль Card, чтобы не дублировать код.
-
-// Попап просмотра фото карточки
-export const viewImagePopup = document.querySelector('.popup_type_image-view');
-// Кнопка закрытия попапа просмотра фото
-export const closeViewImagePopupBtn = viewImagePopup
-  .querySelector('.popup__close-button_type_image-view');
-// Фото в попапе просмотра фото
-export const viewImagePopupImg = viewImagePopup.querySelector('.popup__image');
-// Подпись фото в попапе просмотра фото
-export const viewImagePopupImgCaption = viewImagePopup
-  .querySelector('.popup__image-caption');
 
 // Элементы для редактирования профиля пользователя
 // Имя пользователя
@@ -82,20 +67,25 @@ const object = {formSelector: '.popup__form',
 
 /** Функциональность редактирования профиля пользователя **/
 
+// Создаем экземпляр класса валидатора для формы
+const editProfileValidator = new FormValidator(object, editProfileFormElement);
+editProfileValidator.enableValidator();
+
 /* Функция открытия попапа редактирования профиля и автоматической вставки
 значений из профайла */
 function renderEditProfilePopup() {
+  // Очищаем поля от ошибок предыдущей валидации
+  editProfileValidator.clearPreviousValidation();
+  // Вставляем значения из профайла (Прим. на предыдущих ревью мне делали замечание,
+  // что при каждой загрузке данной формы в поля должны подгружаться значения,
+  // сохраненные в соответствующих полях файла разметки.
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
-  openPopup(editProfilePopup)
-  // Создаем экземпляр класса валидатора для формы
-  const editProfileValidator = new FormValidator(object, editProfileFormElement);
-  // Очищаем поля формы от результатов предыдущей валидации
-  editProfileValidator.clearPreviousValidation();
-  // Деактивируем кнопку отправки формы
+  openPopup(editProfilePopup);
+  // Проверяем состояние кнопки отправки формы (Прим. в данном случае
+  // эта кнопка всегда будет активна при каждой загрузке формы, т.к.
+  // загружаемые значения всегда валидны.
   editProfileValidator.toggleSubmitButtonState();
-  // Включаем валидацию
-  editProfileValidator.enableValidator();
 }
 
 /* Функция сохранения и отправки данных редактирования профиля из формы
@@ -109,14 +99,17 @@ function submitProfileForm (event) {
 
 /** Функциональность карточек с фото **/
 
+// Создание валидатора формы добавления карточки
+const formAddCardValidator = new FormValidator(object, addCardFormElement);
+formAddCardValidator.enableValidator();
+
 // Функция открытия попапа добавления фото по клику на кнопку добавления
 function renderAddCardPopup() {
-  openPopup(addCardPopup);
-  // Прим. код ниже аналогичен коду в функции renderEditProfilePopup
-  const formAddCardValidator = new FormValidator(object, addCardFormElement);
-  formAddCardValidator.toggleSubmitButtonState();
+  // Очищаем поля от ошибок предыдущей валидации
   formAddCardValidator.clearPreviousValidation();
-  formAddCardValidator.enableValidator();
+  openPopup(addCardPopup);
+  // Проверяем состояние кнопки отправки формы
+  formAddCardValidator.toggleSubmitButtonState();
 }
 
 /* Функция добавления карточки на страницу пользователем через форму
