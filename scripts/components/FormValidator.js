@@ -1,6 +1,6 @@
-/** Валидация форм **/
+/** Класс FormValidator для валидации форм **/
 
-export class FormValidator {
+export default class FormValidator {
   constructor({
                 formSelector,
                 inputSelector,
@@ -9,7 +9,7 @@ export class FormValidator {
                 inactiveButtonClass,
                 inputErrorClass,
                 errorClass,
-              } = obj, formElement) {
+              }, formElement) {
     this._formElement = formElement;
     this._inputSelector = inputSelector;
     this._submitButtonSelector = submitButtonSelector;
