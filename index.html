@@ -56,12 +56,13 @@
             aria-label="Кнопка закрытия модального окна добавления карточки"></button>
     <form class="popup__form popup__form_type_add-card-form" name="add-card-form" novalidate>
       <h2 class="popup__form-heading">Новое место</h2>
-      <input type="text" class="popup__form-item popup__form-item_type_card-description" name="card-description"
-             placeholder="Название" id="card-description" minlength="2" maxlength="20" required>
-      <span class="popup__input-error card-description-error"></span>
-      <input type="url" class="popup__form-item popup__form-item_type_image-link" name="image-link"
-             placeholder="Ссылка на картинку" id="image-link" required>
-      <span class="popup__input-error image-link-error"></span>
+      <input type="text" class="popup__form-item popup__form-item_type_card-description" name="card"
+             placeholder="Название" id="card" minlength="2" maxlength="20"
+             required>
+      <span class="popup__input-error card-error"></span>
+      <input type="url" class="popup__form-item popup__form-item_type_image-link" name="link"
+             placeholder="Ссылка на картинку" id="link" required>
+      <span class="popup__input-error link-error"></span>
       <button type="submit" class="popup__form-submit-button popup__form-submit-button_type_add-card-form">Создать
       </button>
     </form>
@@ -89,6 +90,6 @@
     <button type="button" class="element__trash-button" aria-label="Кнопка удаления фотографии"></button>
   </li>
 </template>
-<script type="module" src="scripts/index.js"></script>
+<script type="module" src="scripts/pages/index.js"></script>
 </body>
 </html>

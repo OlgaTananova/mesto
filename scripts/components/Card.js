@@ -1,10 +1,7 @@
-/** Функциональность редактирования карточек с фото **/
+/** Класс Card для создания карточек с фото **/
 
-import {openPopup, viewImagePopup, viewImagePopupImg, viewImagePopupImgCaption}
-  from './utils.js';
-
-export class Card {
-  constructor(cardTitle, cardImageLink, cardTemplateSelector) {
+export default class Card {
+  constructor(cardTitle, cardImageLink, cardTemplateSelector, handleCardClick) {
     this._cardTitle = cardTitle;
     this._cardImageLink = cardImageLink;
     this._cardTemplateSelector = cardTemplateSelector;
@@ -17,9 +14,10 @@ export class Card {
     this._cardCaption = this._card.querySelector('.element__caption');
     this._cardLikeBtn = this._card.querySelector('.element__like-button');
     this._cardDeleteBtn = this._card.querySelector('.element__trash-button');
+    this._handleCardClick = handleCardClick;
   }
 
-  _createCard() {
+  createCard() {
     this._cardCaption.textContent = this._cardTitle;
     this._cardImage.src = this._cardImageLink;
     this._cardImage.alt = `Фото:${this._cardTitle}`;
@@ -34,13 +32,9 @@ export class Card {
     this._cardDeleteBtn.addEventListener('click', () => {
       this._deleteCard(this._card)
     });
-    this._cardImage.addEventListener('click', () => {
-      this._openViewImagePopup(this._card);
-    });
-  }
-
-  renderCard() {
-    return this._createCard();
+    this._cardImage.addEventListener('click', (event) => {
+      this._handleCardClick(event);
+    })
   }
 
   _like() {
@@ -50,13 +44,6 @@ export class Card {
   _deleteCard() {
     this._card.remove();
     this._card = null;
-  }
-
-  _openViewImagePopup() {
-    viewImagePopupImg.src = this._cardImage.src;
-    viewImagePopupImg.alt = this._cardImage.alt;
-    viewImagePopupImgCaption.textContent = this._cardCaption.textContent;
-    openPopup(viewImagePopup);
   }
 }
 
