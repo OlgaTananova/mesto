@@ -31,5 +31,4 @@
 
 TBC...
 
-
 Ссылка на проект на GitHub.Pages: [Место] (https://olgatananova.github.io/mesto/)
