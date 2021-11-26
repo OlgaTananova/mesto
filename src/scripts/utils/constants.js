@@ -21,23 +21,35 @@ export const cardElementContainer = '.elements';
 export const cardTemplateSelector = '#element-template';
 export const viewImagePopupSelector = '.popup_type_image-view';
 
+import arkhyzPhoto from '../../images/element_photo_arhyz.jpg';
+import chelPhoto from '../../images/element_photo_chelyabinsk-oblast.jpg';
+import altai from '../../images/element_photo_gorny-altay.jpg';
+import kamchatka from '../../images/element_photo_kamchatka.jpg'
+import karachaevsk from '../../images/element_photo_karachaevsk.jpg';
+import baikal from '../../images/element_photo_baikal_2.jpg';
+
+
+
 // Массив карточек для загрузки на странице
 export const initialCards = [{
   name: 'Архыз',
-  link: 'images/element_photo_arhyz.jpg'
+  link: arkhyzPhoto
 }, {
   name: 'Челябинская область',
-  link: 'images/element_photo_chelyabinsk-oblast.jpg'
+  link: chelPhoto
 }, {
   name: 'Горный Алтай',
-  link: 'images/element_photo_gorny-altay.jpg'
+  link: altai
 }, {
   name: 'Камчатка',
-  link: 'images/element_photo_kamchatka.jpg'
+  link: kamchatka
 }, {
   name: 'Карачаево-Черкессия',
-  link: 'images/element_photo_karachaevsk.jpg'
-}, {name: 'Байкал', link: 'images/element_photo_baikal_2.jpg'}];
+  link: karachaevsk
+}, {
+  name: 'Байкал',
+  link: baikal
+}];
 
 // Объект с селекторами классами для валидации форм
 export const object = {
@@ -49,4 +61,5 @@ export const object = {
   errorClass: 'popup__input-error_active',
   errorSelector: '.popup__input-error'
 };
+
 

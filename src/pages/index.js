@@ -1,11 +1,11 @@
 /*** Общий файл ***/
 
-import Card from '../components/Card.js';
-import FormValidator from '../components/FormValidator.js';
-import Section from '../components/Section.js';
-import PopupWithForm from '../components/PopupWithForm.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import UserInfo from '../components/UserInfo.js';
+import Card from '../scripts/components/Card.js';
+import FormValidator from '../scripts/components/FormValidator.js';
+import Section from '../scripts/components/Section.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import UserInfo from '../scripts/components/UserInfo.js';
 import {
   addCardButton,
   cardTemplateSelector,
@@ -20,13 +20,14 @@ import {
   userDescription,
   editProfileButton,
   viewImagePopupSelector,
-} from '../utils/constants.js';
+} from '../scripts/utils/constants.js';
+import './index.css';
 
 /** Функциональность редактирования профиля пользователя **/
 
 // Экземпляр класса для управления данными пользователя
 const userInfo = new UserInfo(userName, userDescription);
-const defaultUserInfo = userInfo.getUserInfo();
+
 
 // Экземпляр класса валидатора для формы профиля пользователя
 const editProfileValidator = new FormValidator(object, editProfileFormElement);
@@ -43,6 +44,7 @@ editProfilePopup.setEventListeners();
 // Слушатель клика кнопки редактирования профиля пользователя
 editProfileButton.addEventListener('click', () => {
   editProfileValidator.clearPreviousValidation(); // Очищаем поля от предыдущей валидации
+  const defaultUserInfo = userInfo.getUserInfo();
   editProfileFormElement
     .querySelector('.popup__form-item_type_profile-name').value = defaultUserInfo.name;
   editProfileFormElement
@@ -95,6 +97,7 @@ addCardButton.addEventListener('click', () => {
 // Экземпляр класса попапа просмотра фото карточки
 const viewCardImagePopup = new PopupWithImage(viewImagePopupSelector);
 viewCardImagePopup.setEventListeners();
+
 
 
 
