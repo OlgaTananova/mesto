@@ -2,10 +2,8 @@
 
 export default class FormValidator {
   constructor({
-                formSelector,
                 inputSelector,
                 submitButtonSelector,
-                submitButtonInactiveClass,
                 inactiveButtonClass,
                 inputErrorClass,
                 errorClass,

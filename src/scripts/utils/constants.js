@@ -7,8 +7,13 @@ export const editProfilePopup = document.querySelector(editProfilePopupSelector)
 export const editProfileButton = profile.querySelector('.profile__edit-button');
 export const editProfileFormElement = editProfilePopup
   .querySelector('.popup__form_type_edit-profile-form');
-export const userName = '.profile__name';
-export const userDescription = '.profile__description'
+export const userNameSelector = '.profile__name';
+export const userDescriptionSelector = '.profile__description';
+export const userNameInput = editProfileFormElement
+  .querySelector('.popup__form-item_type_profile-name');
+export const userDescriptionInput = editProfileFormElement
+  .querySelector('.popup__form-item_type_profile-description');
+
 
 
 // Элементы для добавления карточек
