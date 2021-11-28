@@ -16,8 +16,10 @@ import {
   object,
   editProfilePopupSelector,
   editProfileFormElement,
-  userName,
-  userDescription,
+  userNameSelector,
+  userDescriptionSelector,
+  userNameInput,
+  userDescriptionInput,
   editProfileButton,
   viewImagePopupSelector,
 } from '../scripts/utils/constants.js';
@@ -26,7 +28,7 @@ import './index.css';
 /** Функциональность редактирования профиля пользователя **/
 
 // Экземпляр класса для управления данными пользователя
-const userInfo = new UserInfo(userName, userDescription);
+const userInfo = new UserInfo(userNameSelector, userDescriptionSelector);
 
 
 // Экземпляр класса валидатора для формы профиля пользователя
@@ -37,6 +39,7 @@ editProfileValidator.enableValidator();
 const editProfilePopup = new PopupWithForm({
   popupSelector: editProfilePopupSelector, handleFormSubmit: (formData) => {
     userInfo.setUserInfo(formData);
+    editProfilePopup.close();
   }
 });
 editProfilePopup.setEventListeners();
@@ -45,26 +48,27 @@ editProfilePopup.setEventListeners();
 editProfileButton.addEventListener('click', () => {
   editProfileValidator.clearPreviousValidation(); // Очищаем поля от предыдущей валидации
   const defaultUserInfo = userInfo.getUserInfo();
-  editProfileFormElement
-    .querySelector('.popup__form-item_type_profile-name').value = defaultUserInfo.name;
-  editProfileFormElement
-    .querySelector('.popup__form-item_type_profile-description').value = defaultUserInfo.description; // Загружаем в форму данные из профайла
+  userNameInput.value = defaultUserInfo.name;
+  userDescriptionInput.value = defaultUserInfo.description; // Загружаем в форму данные из профайла
   editProfileValidator.toggleSubmitButtonState(); // Проверяем состояние кнопки submit'a
   editProfilePopup.open();
 });
 
 /** Функциональность карточек с фото **/
 
+// Функция создания экземпляра карточки
+const newCard = (item) => {
+  const card = new Card(item.name, item.link, cardTemplateSelector, () => {
+    viewCardImagePopup.open(item)
+  });
+  const cardElement = card.createCard();
+  cardList.addItem(cardElement);
+}
+
 // Экземпляр класса Section для добавления карточек на страницу
 const cardList = new Section({
   items: initialCards, renderer: (item) => {
-    const card = new Card(item.name, item.link, cardTemplateSelector, (event) => {
-      const imageSource = event.target.src;
-      const imageCaption = event.target.nextElementSibling.firstElementChild.textContent;
-      viewCardImagePopup.open(imageSource, imageCaption);
-    });
-    const cardElement = card.createCard();
-    cardList.addItem(cardElement);
+    newCard(item); // Создаем экземпляр новой карточки
   }
 }, cardElementContainer);
 cardList.renderItems();
@@ -76,13 +80,8 @@ formAddCardValidator.enableValidator();
 // Экземпляр класса попапа добавления карточек
 const addCardPopup = new PopupWithForm({
   popupSelector: addCardPopupSelector, handleFormSubmit: (formData) => {
-    const card = new Card(formData.card, formData.link, cardTemplateSelector, (event) => {
-      const imageSource = event.target.src;
-      const imageCaption = event.target.nextElementSibling.firstElementChild.textContent;
-      viewCardImagePopup.open(imageSource, imageCaption);
-    });
-    const cardElement = card.createCard();
-    cardList.addItem(cardElement);
+    newCard(formData); // Создаем экземпляр новой карточки
+    addCardPopup.close();
   },
 });
 addCardPopup.setEventListeners();
