@@ -57,18 +57,18 @@ editProfileButton.addEventListener('click', () => {
 /** Функциональность карточек с фото **/
 
 // Функция создания экземпляра карточки
-const newCard = (item) => {
+const createNewCard = (item) => {
   const card = new Card(item.name, item.link, cardTemplateSelector, () => {
     viewCardImagePopup.open(item)
   });
-  const cardElement = card.createCard();
-  cardList.addItem(cardElement);
+  return card.createCard();
 }
 
 // Экземпляр класса Section для добавления карточек на страницу
 const cardList = new Section({
   items: initialCards, renderer: (item) => {
-    newCard(item); // Создаем экземпляр новой карточки
+    // Создаем экземпляр новой карточки и добавляем ее на страницу
+    cardList.addItem(createNewCard(item));
   }
 }, cardElementContainer);
 cardList.renderItems();
@@ -80,7 +80,8 @@ formAddCardValidator.enableValidator();
 // Экземпляр класса попапа добавления карточек
 const addCardPopup = new PopupWithForm({
   popupSelector: addCardPopupSelector, handleFormSubmit: (formData) => {
-    newCard(formData); // Создаем экземпляр новой карточки
+    // Создаем экземпляр новой карточки и добавляем ее на страницу
+    cardList.addItem(createNewCard(formData));
     addCardPopup.close();
   },
 });
