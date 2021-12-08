@@ -492,25 +492,57 @@ template {
 }
 
 
-.profile__avatar {
+.profile__avatar-container {
   width: 120px;
-  object-fit: contain;
-  object-position: center;
+  height: 120px;
+  position: relative;
+  display: block;
+  overflow: hidden;
   border-radius: 50%;
-  margin: 0;
+}
+
+.profile__avatar-container::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000000;
+  background-image: url(a086f758840ae814ecde.svg);
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+  transition: opacity .3s linear;
+}
+
+.profile__avatar-container:hover:before {
+  opacity: .8;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 950px) {
-  .profile__avatar {
+  .profile__avatar-container {
     grid-area: avatar;
   }
 }
 
 @media screen and (max-width: 680px) {
-  .profile__avatar {
+  .profile__avatar-container {
     margin-bottom: 26px;
   }
 }
+
+
+.profile__avatar {
+  width: 120px;
+  object-position: center;
+  object-fit: cover;
+  margin: 0;
+}
+
 
 
 .profile__description {
@@ -743,6 +775,7 @@ template {
 
 
 .element__description {
+  max-width: 282px;
   background-color: #FFFFFF;
   border-radius: 0 0 10px 10px;
   display: flex;
@@ -768,6 +801,13 @@ template {
 }
 
 
+.element__like-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 .element__like-button {
   width: 22px;
   height: 19px;
@@ -776,7 +816,7 @@ template {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;
-  margin-right: 7px;
+  /*margin-right: 7px;*/
   padding: 0;
   border: none;
   transition: opacity .3s ease;
@@ -812,6 +852,19 @@ template {
 
 .element__like-button_active {
   background-image: url(fe17a515669479b1e649.svg);
+}
+
+
+.element__likes-qty {
+  width: 10px;
+  padding: 0;
+  margin: 3px 0 0;
+  min-height: 13px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+  color: black;
 }
 
 
@@ -1122,6 +1175,16 @@ template {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+
+.popup__form-submit-button_type_confirm-delete-form {
+  margin: 0 auto 36px;
+}
+
+
+.popup__form-heading_type_update-avatar-form {
+  margin-bottom: 45px;
+}
+
 /****** MESTO ******/
 
 /*Глобальные стили*/
@@ -1135,4 +1198,5 @@ template {
 /* Секция Footer */
 
 /* Секция Popup */
+
 
