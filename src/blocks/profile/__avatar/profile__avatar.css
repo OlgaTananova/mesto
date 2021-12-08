@@ -1,20 +1,8 @@
 
 .profile__avatar {
   width: 120px;
-  object-fit: contain;
   object-position: center;
-  border-radius: 50%;
+  object-fit: cover;
   margin: 0;
 }
 
-@media screen and (max-width: 950px) {
-  .profile__avatar {
-    grid-area: avatar;
-  }
-}
-
-@media screen and (max-width: 680px) {
-  .profile__avatar {
-    margin-bottom: 26px;
-  }
-}

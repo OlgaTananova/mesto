@@ -9,11 +9,16 @@ export const editProfileFormElement = editProfilePopup
   .querySelector('.popup__form_type_edit-profile-form');
 export const userNameSelector = '.profile__name';
 export const userDescriptionSelector = '.profile__description';
+export const userName = profile.querySelector(userNameSelector);
+export const userDescription = profile.querySelector(userDescriptionSelector);
 export const userNameInput = editProfileFormElement
   .querySelector('.popup__form-item_type_profile-name');
 export const userDescriptionInput = editProfileFormElement
   .querySelector('.popup__form-item_type_profile-description');
-
+export const updateUserAvatarPopupSelector = '.popup_type_update-avatar-form';
+export const updateUserAvatarFormElement = document.querySelector('.popup__form_type_update-avatar-form');
+export const updateUserAvatarButton = profile.querySelector('.profile__avatar-container');
+export const userAvatar = profile.querySelector('.profile__avatar');
 
 
 // Элементы для добавления карточек
@@ -22,9 +27,10 @@ export const addCardPopupSelector = '.popup_type_add-card-form';
 export const addCardPopup = document.querySelector(addCardPopupSelector);
 export const addCardFormElement = addCardPopup
   .querySelector('.popup__form_type_add-card-form');
-export const cardElementContainer = '.elements';
+export const cardElementContainerSelector = '.elements';
 export const cardTemplateSelector = '#element-template';
 export const viewImagePopupSelector = '.popup_type_image-view';
+export const confirmDeletePopupSelector = '.popup_type_confirm-delete-form';
 
 import arkhyzPhoto from '../../images/element_photo_arhyz.jpg';
 import chelPhoto from '../../images/element_photo_chelyabinsk-oblast.jpg';
