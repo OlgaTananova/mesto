@@ -16,6 +16,7 @@ import {
   object,
   editProfilePopupSelector,
   editProfileFormElement,
+  editProfileSubmitBtn,
   userNameSelector,
   userDescriptionSelector,
   userNameInput,
@@ -30,9 +31,12 @@ import {
   userDescription,
   confirmDeletePopupSelector,
   cardElementContainerSelector,
+  updateAvatarSubmitBtn,
+  addCardSubmitBtn,
 } from '../scripts/utils/constants.js';
 import './index.css';
 
+//Экземпляр класса Api для сетевых запросов
 const api = new Api({
   baseURL: 'https://mesto.nomoreparties.co/v1/cohort-31',
   headers: {
@@ -40,6 +44,19 @@ const api = new Api({
     'Content-Type': 'application/json'
   }});
 
+/** Функциональность редактирования профиля пользователя **/
+
+// Функция изменения состояния кнопки submit при загрузке данных на сервер
+function renderLoading(button,isLoading){
+  if (isLoading) {
+    button.value = button.textContent;
+    button.textContent = 'Сохранить...'
+  } else {
+    button.textContent = button.value;
+  }
+}
+
+// Подгружаем данные о пользователе с сервера
 api.getUserInfo()
   .then(result =>{
   userAvatar.src = result.avatar;
@@ -47,11 +64,8 @@ api.getUserInfo()
   userDescription.textContent = result.about;
 });
 
-/** Функциональность редактирования профиля пользователя **/
-
 // Экземпляр класса для управления данными пользователя
 const userInfo = new UserInfo(userNameSelector, userDescriptionSelector);
-
 
 // Экземпляр класса валидатора для формы профиля пользователя
 const editProfileValidator = new FormValidator(object, editProfileFormElement);
@@ -60,8 +74,13 @@ editProfileValidator.enableValidator();
 // Экземпляр попапа редактирования профиля пользователя
 const editProfilePopup = new PopupWithForm({
   popupSelector: editProfilePopupSelector, handleFormSubmit: (formData) => {
-    userInfo.setUserInfo(formData);
-    api.editProfile(formData); // Отправляем на сервер обновленные данные
+    userInfo.setUserInfo(formData); // Подгружаем данные на страницу
+    renderLoading(editProfileSubmitBtn, true);
+    api.editProfile(formData) // Отправляем на сервер обновленные данные
+      .finally( ()=> {
+          renderLoading(editProfileSubmitBtn, false)
+        }
+      )
     editProfilePopup.close();
   }
 });
@@ -75,7 +94,11 @@ updateUserAvatarFormValidator.enableValidator();
 const updateUserAvatarPopup = new PopupWithForm({popupSelector: updateUserAvatarPopupSelector,
 handleFormSubmit:(formData)=>{
   userAvatar.src = formData.link; // Подгружаем данные на страницу
-  api.updateUserAvatar(formData.link); // Отправляем обновленные данные на сервер
+  renderLoading(updateAvatarSubmitBtn, true);
+  api.updateUserAvatar(formData.link) // Отправляем обновленные данные на сервер
+    .finally(()=>{
+      renderLoading(updateAvatarSubmitBtn, false);
+    })
   updateUserAvatarPopup.close();
 }});
 updateUserAvatarPopup.setEventListeners();
@@ -98,6 +121,7 @@ updateUserAvatarButton.addEventListener('click', ()=>{
 });
 
 /** Функциональность карточек с фото **/
+
 // Функция создания экземпляра карточки
 const createNewCard = (item) => {
   const card = new Card(item.name,
@@ -107,33 +131,39 @@ const createNewCard = (item) => {
     item._id,
     cardTemplateSelector,
     () => {
-    viewCardImagePopup.open(item)
+    viewCardImagePopup.open(item) // Открываем попап с картинкой
   },
     ()=>{
-    deleteCardPopup.open(item._id, card);
-  },
-    ()=>{
-    api.likeCard(item._id)
-      .then(res=>{
-        card.updateLikeQty(res.likes.length)
+    deleteCardPopup.open(item._id); // Открываем попап подтверждения удаления карточки
+  }, (isLike)=> { // Обрабатываем клик лайка карточки
+      if (isLike) {
+        api.likeCard(item._id) // Лайкаем карточку, отправляем данные на сервер
+          .then(res => {
+            card.updateLikeQty(res.likes.length); // и обновляем счетчик лайков на странице
+          })
+      } else {
+        api.dislikeCard(item._id) // Удаляем лайк, отправляем данные на сервер
+          .then(res => {
+            card.updateLikeQty(res.likes.length) // обновляем счетчик лайков
+          })
+      }
+    });
+  api.getUserInfo() // Подгружаем данные о пользователе с сервера
+    .then(data => { // Если у карточки есть id пользователя в списке лайков, то активируем кнопку лайка
+      item.likes.forEach(item=>{
+        if (item.id === data.id){
+          card.like();
+        }
       })
-    },
-    ()=>{
-    api.dislikeCard(item._id)
-      .then(res=>{
-        card.updateLikeQty(res.likes.length)
-      })
-    })
-  card.createCard();
-  api.getUserInfo()
-    .then(data=>{
-      card.removeDeleteBtn(data._id);
-    })
+      card.removeDeleteBtn(data._id); // Если пользователь - не автор карточки, то убираем кнопку удаления
+    });
   return card.createCard();
 }
 
+// Экземпляр класса для отрисовки карточек на странице
 const cardList = new Section(cardElementContainerSelector);
 
+// Подгружаем карточки с сервера
 api.getInitialCards().then(
   (data)=>{
     data.forEach(item =>{
@@ -149,10 +179,14 @@ formAddCardValidator.enableValidator();
 // Экземпляр класса попапа добавления карточек
 const addCardPopup = new PopupWithForm({
   popupSelector: addCardPopupSelector, handleFormSubmit: (formData) => {
+    renderLoading(addCardSubmitBtn, true);
     api.addNewCard(formData) // Отправляем карточку на сервер
       .then(res=>{
         const card = createNewCard(res);
         cardList.addItem(card);
+      })
+      .finally(()=>{
+        renderLoading(addCardSubmitBtn, false);
       })
     addCardPopup.close();
   },
@@ -170,11 +204,13 @@ addCardButton.addEventListener('click', () => {
 const viewCardImagePopup = new PopupWithImage(viewImagePopupSelector);
 viewCardImagePopup.setEventListeners();
 
-const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (cardId, card)=>{
-  api.deleteCard(cardId)
-  document.getElementById(cardId).remove();
+// Экземпляр класса попапа подтверждения удаления карточки
+const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (cardId)=>{
+  api.deleteCard(cardId) // Отправляем запрос на сервер на удаление карточки
+    .then(res =>{
+      document.getElementById(cardId).remove(); // После - удаляем ее из разметки страницы
+  });
   deleteCardPopup.close();
-
 });
 deleteCardPopup.setEventListeners();
 
