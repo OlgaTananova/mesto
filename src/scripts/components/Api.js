@@ -6,30 +6,32 @@ export default class Api {
     this._headers = headers;
   }
 
+  _handleError(res, errorText) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`${errorText}. Статус ошибки: ${res.status}`);
+  }
+
   getUserInfo() {
     return fetch(this._URL + '/users/me', {
       method: 'GET', headers: this._headers,
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+      .then((res) => {
+        return this._handleError(res, 'Ошибка, не удалось загрузить данные пользователя');
       })
       .catch(err => {
-        alert(`Ошибка: ${err.status}, ${err.name}`)
-      })
+        alert(err)
+      });
   }
+
 
   getInitialCards() {
     return fetch(this._URL + '/cards', {
       method: 'GET', headers: this._headers,
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: не удалось загрузить карточки ${res.status}`);
+        return this._handleError(res, 'Ошибка, не удалось загрузить карточки')
       })
       .catch(err => {
         alert(err);
@@ -44,11 +46,7 @@ export default class Api {
       })
     })
       .then(res => {
-        if (res.ok) {
-          return
-        }
-        return Promise.reject(`Ошибка: не удалость загрузить данные.
-        Статус ошибки ${res.status}`)
+        return this._handleError(res, 'Ошибка, не удалось обновить профиль пользователя')
       })
       .catch(err => {
         alert(err)
@@ -62,11 +60,7 @@ export default class Api {
       })
     })
       .then(res => {
-        if (res.ok) {
-          return
-        }
-        return Promise.reject(`Ошибка: не удалость загрузить данные.
-        Статус ошибки ${res.status}`)
+        return this._handleError(res, 'Ошибка, не удалось обновить аватар пользователя')
       })
       .catch(err => {
         alert(err)
@@ -80,10 +74,7 @@ export default class Api {
       })
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: не удалось загрузить карточку ${res.status}`);
+        return this._handleError(res, 'Ошибка, не удалось добавить карточку')
       })
       .catch(err => {
         alert(err)
@@ -95,10 +86,7 @@ export default class Api {
       method: 'DELETE', headers: this._headers,
     })
       .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка: не удалось удалить карточку ${res.status}`)
+        return this._handleError(res, 'Ошибка, не удалось удалить карточку')
       })
       .catch(err => {
         alert(err);
@@ -110,10 +98,7 @@ export default class Api {
       method: 'PUT', headers: this._headers,
     })
       .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка: не удалось лайкнуть карточку ${res.status}`)
+        return this._handleError(res, 'Ошибка, не удалось поставить лайк карточке')
       })
       .catch(err => {
         alert(err);
@@ -125,10 +110,7 @@ export default class Api {
       method: 'DELETE', headers: this._headers,
     })
       .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Ошибка: не удалось убрать лайк с карточки ${res.status}`)
+        return this._handleError(res, 'Ошибка, не удалось удалить лайк карточки')
       })
       .catch(err => {
         alert(err);

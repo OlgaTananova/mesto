@@ -33,6 +33,7 @@ import {
   cardElementContainerSelector,
   updateAvatarSubmitBtn,
   addCardSubmitBtn,
+  confirmDeleteSubmitBtn
 } from '../scripts/utils/constants.js';
 import './index.css';
 
@@ -42,12 +43,13 @@ const api = new Api({
   headers: {
     authorization: '65021073-788a-4fae-b274-a844bf3e53d6',
     'Content-Type': 'application/json'
-  }});
+  }
+});
 
 /** Функциональность редактирования профиля пользователя **/
 
 // Функция изменения состояния кнопки submit при загрузке данных на сервер
-function renderLoading(button,isLoading){
+function renderLoading(button, isLoading) {
   if (isLoading) {
     button.value = button.textContent;
     button.textContent = 'Сохранить...'
@@ -56,13 +58,20 @@ function renderLoading(button,isLoading){
   }
 }
 
-// Подгружаем данные о пользователе с сервера
-api.getUserInfo()
-  .then(result =>{
-  userAvatar.src = result.avatar;
-  userName.textContent = result.name;
-  userDescription.textContent = result.about;
-});
+// Экземпляр класса для для добавления карточек на страницу
+const cardList = new Section(cardElementContainerSelector);
+
+// Подгружаем данные о пользователе и карточки с сервера
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(res => {
+    userAvatar.src = res[0].avatar;
+    userName.textContent = res[0].name;
+    userName.id = res[0]._id; // Сохраняем id пользователя
+    userDescription.textContent = res[0].about;
+    res[1].forEach((item) => {
+      cardList.addItem(createNewCard(item));
+    });
+  });
 
 // Экземпляр класса для управления данными пользователя
 const userInfo = new UserInfo(userNameSelector, userDescriptionSelector);
@@ -74,9 +83,11 @@ editProfileValidator.enableValidator();
 // Экземпляр попапа редактирования профиля пользователя
 const editProfilePopup = new PopupWithForm({
   popupSelector: editProfilePopupSelector, handleFormSubmit: (formData) => {
-    userInfo.setUserInfo(formData); // Подгружаем данные на страницу
     renderLoading(editProfileSubmitBtn, true);
     api.editProfile(formData) // Отправляем на сервер обновленные данные
+      .then(()=>{
+        userInfo.setUserInfo(formData); // Подгружаем данные на страницу
+      })
       .finally( ()=> {
           renderLoading(editProfileSubmitBtn, false)
         }
@@ -86,16 +97,18 @@ const editProfilePopup = new PopupWithForm({
 });
 editProfilePopup.setEventListeners();
 
-// Экземпляр попапа валидатора формы обновления аватара пользователя
+// Экземпляр класса валидатора формы обновления аватара пользователя
 const updateUserAvatarFormValidator = new FormValidator(object, updateUserAvatarFormElement);
 updateUserAvatarFormValidator.enableValidator();
 
 // Экземпляр попапа редактирования аватара пользователя
 const updateUserAvatarPopup = new PopupWithForm({popupSelector: updateUserAvatarPopupSelector,
 handleFormSubmit:(formData)=>{
-  userAvatar.src = formData.link; // Подгружаем данные на страницу
   renderLoading(updateAvatarSubmitBtn, true);
-  api.updateUserAvatar(formData.link) // Отправляем обновленные данные на сервер
+  api.updateUserAvatar(formData.link)// Отправляем обновленные данные на сервер
+    .then((res)=>{
+      userAvatar.src = res.avatar; // Загружаем картинку на страницу
+    })
     .finally(()=>{
       renderLoading(updateAvatarSubmitBtn, false);
     })
@@ -126,51 +139,30 @@ updateUserAvatarButton.addEventListener('click', ()=>{
 const createNewCard = (item) => {
   const card = new Card(item.name,
     item.link,
-    item.likes.length,
+    item.likes,
     item.owner._id,
     item._id,
     cardTemplateSelector,
+    userName.id,
     () => {
     viewCardImagePopup.open(item) // Открываем попап с картинкой
-  },
-    ()=>{
+  }, () => {
     deleteCardPopup.open(item._id); // Открываем попап подтверждения удаления карточки
-  }, (isLike)=> { // Обрабатываем клик лайка карточки
-      if (isLike) {
-        api.likeCard(item._id) // Лайкаем карточку, отправляем данные на сервер
-          .then(res => {
-            card.updateLikeQty(res.likes.length); // и обновляем счетчик лайков на странице
-          })
-      } else {
-        api.dislikeCard(item._id) // Удаляем лайк, отправляем данные на сервер
-          .then(res => {
-            card.updateLikeQty(res.likes.length) // обновляем счетчик лайков
-          })
-      }
-    });
-  api.getUserInfo() // Подгружаем данные о пользователе с сервера
-    .then(data => { // Если у карточки есть id пользователя в списке лайков, то активируем кнопку лайка
-      item.likes.forEach(item=>{
-        if (item.id === data.id){
-          card.like();
-        }
-      })
-      card.removeDeleteBtn(data._id); // Если пользователь - не автор карточки, то убираем кнопку удаления
-    });
+  }, (isLike) => { // Обрабатываем клик лайка карточки
+    if (isLike) {
+      api.likeCard(item._id) // Лайкаем карточку, отправляем данные на сервер
+        .then(res => {
+          card.updateLikeQty(res.likes.length); // и обновляем счетчик лайков на странице
+        });
+    } else {
+      api.dislikeCard(item._id) // Удаляем лайк, отправляем данные на сервер
+        .then(res => {
+          card.updateLikeQty(res.likes.length); // обновляем счетчик лайков
+        });
+    }
+  });
   return card.createCard();
 }
-
-// Экземпляр класса для отрисовки карточек на странице
-const cardList = new Section(cardElementContainerSelector);
-
-// Подгружаем карточки с сервера
-api.getInitialCards().then(
-  (data)=>{
-    data.forEach(item =>{
-      cardList.addItem(createNewCard(item));
-    })
-  }
-);
 
 // Экземпляр класса валидатора формы добавления карточки
 const formAddCardValidator = new FormValidator(object, addCardFormElement);
@@ -180,12 +172,12 @@ formAddCardValidator.enableValidator();
 const addCardPopup = new PopupWithForm({
   popupSelector: addCardPopupSelector, handleFormSubmit: (formData) => {
     renderLoading(addCardSubmitBtn, true);
-    api.addNewCard(formData) // Отправляем карточку на сервер
-      .then(res=>{
-        const card = createNewCard(res);
-        cardList.addItem(card);
+    api.addNewCard(formData) // Отправляем данные на сервер
+      .then(res => {
+        const card = createNewCard(res); // Создаем карточку
+        cardList.addItem(card); // Добавляем карточку на страницу
       })
-      .finally(()=>{
+      .finally(() => {
         renderLoading(addCardSubmitBtn, false);
       })
     addCardPopup.close();
@@ -205,11 +197,15 @@ const viewCardImagePopup = new PopupWithImage(viewImagePopupSelector);
 viewCardImagePopup.setEventListeners();
 
 // Экземпляр класса попапа подтверждения удаления карточки
-const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (cardId)=>{
+const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (cardId) => {
+  renderLoading(confirmDeleteSubmitBtn, true);
   api.deleteCard(cardId) // Отправляем запрос на сервер на удаление карточки
-    .then(res =>{
+    .then(() => {
       document.getElementById(cardId).remove(); // После - удаляем ее из разметки страницы
-  });
+    })
+    .finally(() => {
+      renderLoading(confirmDeleteSubmitBtn, false);
+    })
   deleteCardPopup.close();
 });
 deleteCardPopup.setEventListeners();

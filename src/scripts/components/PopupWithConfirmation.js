@@ -1,3 +1,4 @@
+/** Класс попапа для подтверждения действий пользователя PopupWithConfirmation **/
 
 import Popup from './Popup.js';
 

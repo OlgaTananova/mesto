@@ -7,6 +7,7 @@ export default class Card {
               ownerId,
               cardId,
               cardTemplateSelector,
+              currentUserId,
               handleCardClick,
               handleDltBtnClick,
               handleLikeBtnClick) {
@@ -19,6 +20,7 @@ export default class Card {
     this._ownerId = ownerId;
     this._cardId = cardId;
     this._handleLikeBtnClick = handleLikeBtnClick;
+    this._currentUserId = currentUserId;
   }
 
   createCard() {
@@ -35,8 +37,16 @@ export default class Card {
     this._cardCaption.textContent = this._cardTitle;
     this._cardImage.src = this._cardImageLink;
     this._cardImage.alt = `Фото:${this._cardTitle}`;
-    this._cardLikesQty.textContent = this._cardLikes;
+    this._cardLikesQty.textContent = this._cardLikes.length;
     this._card.id = this._cardId;
+    if (this._currentUserId !== this._ownerId) { // Если id пользователя не совпадает с id
+      this._cardDeleteBtn.classList.add('element__trash-button_inactive'); // владельца карточки
+    }                                                                     // деактивируем иконку удаления
+    if (this._cardLikes.some(item => { // Если в массиве лайков есть лайк от пользователя
+      return (item._id === this._currentUserId); // то закрашиваем кнопку лайка
+    })) {
+      this.like();
+    }
     this._setEventListeners();
     return this._card;
   }
@@ -63,18 +73,12 @@ export default class Card {
     this._cardLikeBtn.classList.toggle('element__like-button_active');
   }
 
-  removeDeleteBtn(userId) {
-    if (userId !== this._ownerId) {
-      this._cardDeleteBtn.classList.add('element__trash-button_inactive');
-    }
-  }
-
   deleteCard() {
     this._card.remove();
     this._card = null;
   }
 
-  updateLikeQty(qty){
+  updateLikeQty(qty) {
     this._cardLikesQty.textContent = qty;
   }
 }
