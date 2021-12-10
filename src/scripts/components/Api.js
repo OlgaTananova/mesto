@@ -62,8 +62,8 @@ export default class Api {
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось обновить аватар пользователя')
       })
-      .catch(err => {
-        alert(err)
+      .catch(err=>{
+        alert(err);
       })
   }
 
