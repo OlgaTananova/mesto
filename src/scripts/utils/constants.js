@@ -33,37 +33,9 @@ export const cardElementContainerSelector = '.elements';
 export const cardTemplateSelector = '#element-template';
 export const viewImagePopupSelector = '.popup_type_image-view';
 export const confirmDeletePopupSelector = '.popup_type_confirm-delete-form';
+export const confirmDeletePopupFormElement = document.querySelector(confirmDeletePopupSelector);
 export const addCardSubmitBtn = addCardFormElement.querySelector('.popup__form-submit-button');
-
-import arkhyzPhoto from '../../images/element_photo_arhyz.jpg';
-import chelPhoto from '../../images/element_photo_chelyabinsk-oblast.jpg';
-import altai from '../../images/element_photo_gorny-altay.jpg';
-import kamchatka from '../../images/element_photo_kamchatka.jpg'
-import karachaevsk from '../../images/element_photo_karachaevsk.jpg';
-import baikal from '../../images/element_photo_baikal_2.jpg';
-
-
-
-// Массив карточек для загрузки на странице
-export const initialCards = [{
-  name: 'Архыз',
-  link: arkhyzPhoto
-}, {
-  name: 'Челябинская область',
-  link: chelPhoto
-}, {
-  name: 'Горный Алтай',
-  link: altai
-}, {
-  name: 'Камчатка',
-  link: kamchatka
-}, {
-  name: 'Карачаево-Черкессия',
-  link: karachaevsk
-}, {
-  name: 'Байкал',
-  link: baikal
-}];
+export const confirmDeleteSubmitBtn = confirmDeletePopupFormElement.querySelector('.popup__form-submit-button');
 
 // Объект с селекторами классами для валидации форм
 export const object = {
