@@ -45,7 +45,7 @@ export default class Card {
     if (this._cardLikes.some(item => { // Если в массиве лайков есть лайк от пользователя
       return (item._id === this._currentUserId); // то закрашиваем кнопку лайка
     })) {
-      this.like();
+      this._like();
     }
     this._setEventListeners();
     return this._card;
@@ -53,11 +53,9 @@ export default class Card {
 
   _setEventListeners() {
     this._cardLikeBtn.addEventListener('click', () => {
-      this.like();
-      if (this._cardLikeBtn.classList.contains('element__like-button_active')) {
-        this._handleLikeBtnClick(true);
-      }
       if (!this._cardLikeBtn.classList.contains('element__like-button_active')) {
+        this._handleLikeBtnClick(true);
+      } else {
         this._handleLikeBtnClick(false);
       }
     });
@@ -69,17 +67,13 @@ export default class Card {
     })
   }
 
-  like() {
+  _like() {
     this._cardLikeBtn.classList.toggle('element__like-button_active');
-  }
-
-  deleteCard() {
-    this._card.remove();
-    this._card = null;
   }
 
   updateLikeQty(qty) {
     this._cardLikesQty.textContent = qty;
+    this._like();
   }
 }
 
