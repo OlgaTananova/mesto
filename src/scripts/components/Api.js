@@ -1,4 +1,4 @@
-/** Класс Api для сетевых запросов**/
+/** Класс Api для сетевых запросов **/
 
 export default class Api {
   constructor({baseURL, headers}) {
@@ -19,9 +19,6 @@ export default class Api {
     })
       .then((res) => {
         return this._handleError(res, 'Ошибка, не удалось загрузить данные пользователя');
-      })
-      .catch(err => {
-        alert(err)
       });
   }
 
@@ -32,11 +29,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось загрузить карточки')
-      })
-      .catch(err => {
-        alert(err);
-      })
-
+      });
   }
 
   editProfile({name, description}) {
@@ -47,10 +40,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось обновить профиль пользователя')
-      })
-      .catch(err => {
-        alert(err)
-      })
+      });
   }
 
   updateUserAvatar(avatarLink) {
@@ -61,10 +51,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось обновить аватар пользователя')
-      })
-      .catch(err=>{
-        alert(err);
-      })
+      });
   }
 
   addNewCard({name, link}) {
@@ -75,10 +62,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось добавить карточку')
-      })
-      .catch(err => {
-        alert(err)
-      })
+      });
   }
 
   deleteCard(cardId) {
@@ -87,10 +71,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось удалить карточку')
-      })
-      .catch(err => {
-        alert(err);
-      })
+      });
   }
 
   likeCard(cardId) {
@@ -99,10 +80,7 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось поставить лайк карточке')
-      })
-      .catch(err => {
-        alert(err);
-      })
+      });
   }
 
   dislikeCard(cardId) {
@@ -111,9 +89,6 @@ export default class Api {
     })
       .then(res => {
         return this._handleError(res, 'Ошибка, не удалось удалить лайк карточки')
-      })
-      .catch(err => {
-        alert(err);
-      })
+      });
   }
 }
