@@ -17,7 +17,7 @@ export default class PopupWithConfirmation extends Popup {
   renderLoading(isLoading) {
     if (isLoading) {
       this._submitButton.value = this._submitButton.textContent;
-      this._submitButton.textContent = 'Сохранить...';
+      this._submitButton.textContent = 'Удаление...';
     } else {
       this._submitButton.textContent = this._submitButton.value;
     }
