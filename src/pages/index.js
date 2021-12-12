@@ -12,10 +12,8 @@ import {
   addCardButton,
   cardTemplateSelector,
   addCardPopupSelector,
-  addCardFormElement,
   object,
   editProfilePopupSelector,
-  editProfileFormElement,
   userNameSelector,
   userDescriptionSelector,
   userNameInput,
@@ -23,10 +21,8 @@ import {
   editProfileButton,
   viewImagePopupSelector,
   updateUserAvatarPopupSelector,
-  updateUserAvatarFormElement,
   updateUserAvatarButton,
   userAvatarSelector,
-  userName,
   confirmDeletePopupSelector,
   cardElementContainerSelector,
 } from '../scripts/utils/constants.js';
@@ -96,16 +92,6 @@ const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (c
     })
 });
 
-// Экземпляр класса валидатора формы редактирования профиля пользователя
-const editProfileValidator = new FormValidator(object, editProfileFormElement);
-
-// Экземпляр класса валидатора формы обновления аватара пользователя
-const updateUserAvatarFormValidator = new FormValidator(object, updateUserAvatarFormElement);
-
-// Экземпляр класса валидатора формы добавления карточки
-const formAddCardValidator = new FormValidator(object, addCardFormElement);
-
-
 // Функция создания экземпляра карточки
 const createNewCard = (item) => {
   const card = new Card(item.name,
@@ -114,7 +100,7 @@ const createNewCard = (item) => {
     item.owner._id,
     item._id,
     cardTemplateSelector,
-    userName.id,
+    userInfo.getId(),
     () => {
       viewCardImagePopup.open(item) // Открываем попап с картинкой
     }, () => {
@@ -179,29 +165,41 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     viewCardImagePopup.setEventListeners();
     deleteCardPopup.setEventListeners();
 
-    //Активируем валидацию форм
-    editProfileValidator.enableValidator();
-    updateUserAvatarFormValidator.enableValidator();
-    formAddCardValidator.enableValidator();
+    // Запускаем валидацию форм (Прим для ревьюера: не удалось создать валидаторы
+    // для формы редактирования профиля и создания карточки через атрибут name формы
+    // т.к. в этих формах есть инпуты с данным атрибутом и значением. Для каждой формы прописала
+    // атрибут id.
+
+    const formValidators = {};
+    const enableValidation = (config) => {
+      const formList = Array.from(document.querySelectorAll(config.formSelector));
+      formList.forEach((formElement) => {
+        const validator = new FormValidator(config, formElement);
+        formValidators[formElement.id] = validator;
+        validator.enableValidator();
+      });
+    }
+    enableValidation(object);
+
 
     // Слушатель клика кнопки редактирования профиля пользователя
     editProfileButton.addEventListener('click', () => {
       const defaultUserInfo = userInfo.getUserInfo();
       userNameInput.value = defaultUserInfo.name;
       userDescriptionInput.value = defaultUserInfo.about;
-      editProfileValidator.resetValidation();
+      formValidators['edit-profile-form'].resetValidation();
       editProfilePopup.open();
     });
 
     // Слушатель клика кнопки редактирования аватара пользователя
     updateUserAvatarButton.addEventListener('click', ()=>{
-      updateUserAvatarFormValidator.resetValidation();
+      formValidators['update-avatar-form'].resetValidation();
       updateUserAvatarPopup.open();
     });
 
     // Слушатель клика кнопки добавления карточек
     addCardButton.addEventListener('click', () => {
-      formAddCardValidator.resetValidation();
+      formValidators['add-card-form'].resetValidation();
       addCardPopup.open();
     });
     })
