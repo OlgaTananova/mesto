@@ -36,7 +36,7 @@ export default class Card {
     this._cardLikesQty = this._card.querySelector('.element__likes-qty');
     this._cardCaption.textContent = this._cardTitle;
     this._cardImage.src = this._cardImageLink;
-    this._cardImage.alt = `Фото:${this._cardTitle}`;
+    this._cardImage.alt = `Photo:${this._cardTitle}`;
     this._cardLikesQty.textContent = this._cardLikes.length;
     this._card.id = this._cardId;
     if (this._currentUserId !== this._ownerId) {
