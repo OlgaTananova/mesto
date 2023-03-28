@@ -1,4 +1,4 @@
-/** Класс FormValidator для валидации форм **/
+/** FormValidator class to validate forms **/
 
 export default class FormValidator {
   constructor({

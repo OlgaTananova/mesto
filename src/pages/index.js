@@ -1,4 +1,4 @@
-/*** Общий файл ***/
+/*** Main file ***/
 
 import Card from '../scripts/components/Card.js';
 import FormValidator from '../scripts/components/FormValidator.js';
@@ -28,7 +28,7 @@ import {
 } from '../scripts/utils/constants.js';
 import './index.css';
 
-//Экземпляр класса Api для сетевых запросов
+// Api class instance to fetch data
 const api = new Api({
   baseURL: 'https://mesto.nomoreparties.co/v1/cohort-31',
   headers: {
@@ -37,15 +37,15 @@ const api = new Api({
   }
 });
 
-// Экземпляр класса для управления данными пользователя
+// UserInfo instance class
 const userInfo = new UserInfo(userNameSelector, userDescriptionSelector, userAvatarSelector);
 
-// Экземпляр попапа редактирования профиля пользователя
+// Edit User's Profile instance class
 const editProfilePopup = new PopupWithForm({
   popupSelector: editProfilePopupSelector, handleFormSubmit: (formData) => {
-    api.editProfile(formData) // Отправляем на сервер обновленные данные
+    api.editProfile(formData)
       .then((res)=>{
-        userInfo.setUserInfo(res); // Подгружаем данные на страницу
+        userInfo.setUserInfo(res);
         editProfilePopup.close();
       })
       .catch(err=>{
@@ -58,10 +58,10 @@ const editProfilePopup = new PopupWithForm({
   }
 });
 
-// Экземпляр попапа редактирования аватара пользователя
+// Class instance to edit user's avatar
 const updateUserAvatarPopup = new PopupWithForm({popupSelector: updateUserAvatarPopupSelector,
   handleFormSubmit:(formData)=>{
-    api.updateUserAvatar(formData.link)// Отправляем обновленные данные на сервер
+    api.updateUserAvatar(formData.link)
       .then((res)=>{
         userInfo.setUserInfo(res);
         updateUserAvatarPopup.close();
@@ -74,14 +74,14 @@ const updateUserAvatarPopup = new PopupWithForm({popupSelector: updateUserAvatar
       });
   }});
 
-// Экземпляр класса попапа просмотра фото карточки
+// Image Popup class instance
 const viewCardImagePopup = new PopupWithImage(viewImagePopupSelector);
 
-// Экземпляр класса попапа подтверждения удаления карточки
+// Confirmation Popup class instance to delete the card
 const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (cardId) => {
-  api.deleteCard(cardId) // Отправляем запрос на сервер на удаление карточки
+  api.deleteCard(cardId)
     .then(() => {
-      document.getElementById(cardId).remove(); // После - удаляем ее из разметки страницы
+      document.getElementById(cardId).remove();
       deleteCardPopup.close();
     })
     .catch(err=>{
@@ -92,7 +92,7 @@ const deleteCardPopup = new PopupWithConfirmation(confirmDeletePopupSelector, (c
     })
 });
 
-// Функция создания экземпляра карточки
+// Create Card function
 const createNewCard = (item) => {
   const card = new Card(item.name,
     item.link,
@@ -102,22 +102,22 @@ const createNewCard = (item) => {
     cardTemplateSelector,
     userInfo.getId(),
     () => {
-      viewCardImagePopup.open(item) // Открываем попап с картинкой
+      viewCardImagePopup.open(item)
     }, () => {
-      deleteCardPopup.open(item._id); // Открываем попап подтверждения удаления карточки
-    }, (isLike) => { // Обрабатываем клик лайка карточки
+      deleteCardPopup.open(item._id);
+    }, (isLike) => {
       if (isLike) {
-        api.likeCard(item._id) // Лайкаем карточку, отправляем данные на сервер
+        api.likeCard(item._id)
           .then(res => {
-            card.updateLikeQty(res.likes.length);// и обновляем счетчик лайков на странице
+            card.updateLikeQty(res.likes.length);
           })
           .catch(err=>{
             alert(err);
           });
       } else {
-        api.dislikeCard(item._id) // Удаляем лайк, отправляем данные на сервер
+        api.dislikeCard(item._id)
           .then(res => {
-            card.updateLikeQty(res.likes.length); // обновляем счетчик лайков
+            card.updateLikeQty(res.likes.length);
           })
           .catch(err=>{
             alert(err);
@@ -127,26 +127,26 @@ const createNewCard = (item) => {
   return card.createCard();
 }
 
-// Подгружаем данные о пользователе и карточки с сервера
+// Fetch data about  the user and his cards from the server
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(res => {
     const userData = res[0];
     const cardsData = res[1];
-    userInfo.setUserInfo(userData); // Устанавливаем данные пользователя
+    userInfo.setUserInfo(userData);
 
-    // Экземпляр класса для для добавления карточек на страницу
+    // Add Cards class instance
     const cardList = new Section(cardsData, (data)=>{
       cardList.addItem(createNewCard(data));
     }, cardElementContainerSelector);
     cardList.renderItems();
 
-    // Экземпляр класса попапа добавления карточек
+    // Add Cards Popup class instance
     const addCardPopup = new PopupWithForm({
       popupSelector: addCardPopupSelector, handleFormSubmit: (formData) => {
-        api.addNewCard(formData) // Отправляем данные на сервер
+        api.addNewCard(formData)
           .then(res => {
-            const card = createNewCard(res); // Создаем карточку
-            cardList.addItem(card); // Добавляем карточку на страницу
+            const card = createNewCard(res);
+            cardList.addItem(card);
             addCardPopup.close();
           })
           .catch(err=>{
@@ -158,17 +158,14 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       },
     });
 
-    // Устанавливаем слушатели на попапы
+    //setting event listeners on the popups
     editProfilePopup.setEventListeners();
     updateUserAvatarPopup.setEventListeners();
     addCardPopup.setEventListeners();
     viewCardImagePopup.setEventListeners();
     deleteCardPopup.setEventListeners();
 
-    // Запускаем валидацию форм (Прим для ревьюера: не удалось создать валидаторы
-    // для формы редактирования профиля и создания карточки через атрибут name формы
-    // т.к. в этих формах есть инпуты с данным атрибутом и значением. Для каждой формы прописала
-    // атрибут id.
+    // Form validation
 
     const formValidators = {};
     const enableValidation = (config) => {
@@ -182,7 +179,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     enableValidation(object);
 
 
-    // Слушатель клика кнопки редактирования профиля пользователя
+    // Various buttons' event listeners
     editProfileButton.addEventListener('click', () => {
       const defaultUserInfo = userInfo.getUserInfo();
       userNameInput.value = defaultUserInfo.name;
@@ -191,13 +188,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       editProfilePopup.open();
     });
 
-    // Слушатель клика кнопки редактирования аватара пользователя
     updateUserAvatarButton.addEventListener('click', ()=>{
       formValidators['update-avatar-form'].resetValidation();
       updateUserAvatarPopup.open();
     });
 
-    // Слушатель клика кнопки добавления карточек
+
     addCardButton.addEventListener('click', () => {
       formValidators['add-card-form'].resetValidation();
       addCardPopup.open();

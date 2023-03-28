@@ -1,4 +1,4 @@
-/** Класс Section для вставки элементов на страницу **/
+/** Section class to add sections to the page **/
 
 export default class Section {
   constructor(items, renderer, containerSelector) {

@@ -1,4 +1,4 @@
-/** Класса Popup для открытия и закрытия попапов **/
+/** Popup class to open and close popups **/
 
 export default class Popup {
   constructor(popupSelector) {

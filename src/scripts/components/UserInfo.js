@@ -1,4 +1,4 @@
-/** Класс UserInfo для управления данными пользователя **/
+/** UserInfo class to manipulate user's data **/
 
 export default class UserInfo {
   constructor(userNameSelector, userDescriptionSelector, userAvatarSelector) {

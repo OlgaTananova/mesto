@@ -1,4 +1,4 @@
-/** Класс Api для сетевых запросов **/
+/** API Class to fetch data from the server**/
 
 export default class Api {
   constructor({baseURL, headers}) {
@@ -10,7 +10,7 @@ export default class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`${errorText}. Статус ошибки: ${res.status}`);
+    return Promise.reject(`${errorText}. Error status: ${res.status}`);
   }
 
   getUserInfo() {
@@ -18,7 +18,7 @@ export default class Api {
       method: 'GET', headers: this._headers,
     })
       .then((res) => {
-        return this._handleError(res, 'Ошибка, не удалось загрузить данные пользователя');
+        return this._handleError(res, 'Error, it failed to load the user\'s data.');
       });
   }
 
@@ -28,7 +28,7 @@ export default class Api {
       method: 'GET', headers: this._headers,
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось загрузить карточки')
+        return this._handleError(res, 'Error, it failed to load the cards.')
       });
   }
 
@@ -39,7 +39,7 @@ export default class Api {
       })
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось обновить профиль пользователя')
+        return this._handleError(res, 'Error, it failed to update the user\'s info.')
       });
   }
 
@@ -50,7 +50,7 @@ export default class Api {
       })
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось обновить аватар пользователя')
+        return this._handleError(res, 'Error, it failed to update the user\'s avatar.')
       });
   }
 
@@ -61,7 +61,7 @@ export default class Api {
       })
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось добавить карточку')
+        return this._handleError(res, 'Error, it failed to add a new card.')
       });
   }
 
@@ -70,7 +70,7 @@ export default class Api {
       method: 'DELETE', headers: this._headers,
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось удалить карточку')
+        return this._handleError(res, 'Error, it failed to delete the card.')
       });
   }
 
@@ -79,7 +79,7 @@ export default class Api {
       method: 'PUT', headers: this._headers,
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось поставить лайк карточке')
+        return this._handleError(res, 'Error, it failed to like the card.')
       });
   }
 
@@ -88,7 +88,7 @@ export default class Api {
       method: 'DELETE', headers: this._headers,
     })
       .then(res => {
-        return this._handleError(res, 'Ошибка, не удалось удалить лайк карточки')
+        return this._handleError(res, 'Error, it failed to dislike the card.')
       });
   }
 }

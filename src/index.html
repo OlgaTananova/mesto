@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -12,28 +12,28 @@
 <header class="header page__header">
   <img class="header__logo"
        src="<%=require('./images/logo.svg')%>"
-       alt="Логотип Mesto">
+       alt="Logo Mesto">
 </header>
 <main class="content page__content">
   <section class="profile content__profile">
    <div class="profile__avatar-container"><img class="profile__avatar"
          src="<%=require('./images/avatar.jpg')%>"
-             alt="Фото-аватар"></div>
+             alt="Avatar"></div>
     <div class="profile__info">
       <h1 class="profile__name"></h1>
       <p class="profile__description"></p>
       <button type="button"
               class="profile__edit-button"
-              aria-label="Кнопка редактирования профиля"></button>
+              aria-label="Edit user's data button"></button>
     </div>
     <button type="button"
             class="profile__add-button"
-            aria-label="Кнопка добавления фотографий"></button>
+            aria-label="Add photo button"></button>
   </section>
   <section class="elements-section content__elements-section"
-           aria-label="Фоторамка">
+           aria-label='Photo'>
     <ul class="elements">
-      <!--Контейнер для карточек -->
+      <!-- Cards' container -->
     </ul>
   </section>
 </main>
@@ -44,16 +44,16 @@
   <div class="popup__container">
     <button type="button"
             class="popup__close-button popup__close-button_type_edit-profile-form"
-            aria-label="Кнопка закрытия модального окна редактирования профиля"></button>
+            aria-label="Edit user's data popup close button"></button>
     <form class="popup__form popup__form_type_edit-profile-form"
           name="edit-profile-form"
           id="edit-profile-form"
           novalidate>
-      <h2 class="popup__form-heading">Редактировать профиль</h2>
+      <h2 class="popup__form-heading">Edit user's data</h2>
       <input type="text"
              class="popup__form-item popup__form-item_type_profile-name"
              name="name"
-             placeholder="Имя"
+             placeholder="Name"
              id="name-input"
              minlength="2"
              maxlength="40"
@@ -62,7 +62,7 @@
       <input type="text"
              class="popup__form-item popup__form-item_type_profile-description"
              name="description"
-             placeholder="Род занятий"
+             placeholder="Job"
              id="description-input"
              minlength="2"
              maxlength="200"
@@ -70,7 +70,7 @@
       <span class="popup__input-error description-input-error"></span>
       <button type="submit"
               class="popup__form-submit-button popup__form-submit-button_type_edit-profile-form">
-        Сохранить
+        Save
       </button>
     </form>
   </div>
@@ -79,16 +79,16 @@
   <div class="popup__container">
     <button type="button"
             class="popup__close-button popup__close-button_type_add-card-form"
-            aria-label="Кнопка закрытия модального окна добавления карточки"></button>
+            aria-label="Add card form popup close button"></button>
     <form class="popup__form popup__form_type_add-card-form"
           name="add-card-form"
           id="add-card-form"
           novalidate>
-      <h2 class="popup__form-heading">Новое место</h2>
+      <h2 class="popup__form-heading">New card</h2>
       <input type="text"
              class="popup__form-item popup__form-item_type_card-description"
              name="name"
-             placeholder="Название"
+             placeholder="Name"
              id="card"
              minlength="2"
              maxlength="20"
@@ -97,13 +97,13 @@
       <input type="url"
              class="popup__form-item popup__form-item_type_image-link"
              name="link"
-             placeholder="Ссылка на картинку"
+             placeholder="Link to image"
              id="link"
              required>
       <span class="popup__input-error link-error"></span>
       <button type="submit"
               class="popup__form-submit-button popup__form-submit-button_type_add-card-form">
-        Создать
+        Create
       </button>
     </form>
   </div>
@@ -112,10 +112,10 @@
   <div class="popup__container popup__container_type_image-view">
     <button type="button"
             class="popup__close-button popup__close-button_type_image-view"
-            aria-label="Кнопка закрытия модального окна просмотра фотографий"></button>
+            aria-label="Image popup close button"></button>
     <figure class="popup__image-container">
       <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
-           alt="Фото"
+           alt="Photo"
            class="popup__image">
       <figcaption class="popup__image-caption"></figcaption>
     </figure>
@@ -125,12 +125,12 @@
   <div class="popup__container">
     <button type="button"
             class="popup__close-button popup__close-button_type_confirm-delete-form"
-            aria-label="Кнопка закрытия модального окна подтверждения удаления карточки"></button>
+            aria-label="Delete card confirmation popup close button"></button>
     <form class="popup__form popup__form_type_confirm-delete-form"
           name="confirm-delete-form"
           id="confirm-delete-form"
           novalidate>
-      <h2 class="popup__form-heading">Вы уверены?</h2>
+      <h2 class="popup__form-heading">Are you sure?</h2>
       <button type="submit"
               class="popup__form-submit-button popup__form-submit-button_type_confirm-delete-form">
         Да
@@ -142,23 +142,23 @@
   <div class="popup__container">
     <button type="button"
             class="popup__close-button popup__close-button_type_update-avatar-form"
-            aria-label="Кнопка закрытия модального окна редактирования аватара пользователя"></button>
+            aria-label="Edit user's avatar popup close button"></button>
     <form class="popup__form popup__form_type_update-avatar-form"
           name="update-avatar-form"
           id="update-avatar-form"
           novalidate>
       <h2
-        class="popup__form-heading popup__form-heading_type_update-avatar-form">Обновить аватар</h2>
+        class="popup__form-heading popup__form-heading_type_update-avatar-form">Update avatar</h2>
       <input type="url"
              class="popup__form-item popup__form-item_type_avatar-link"
              name="link"
-             placeholder="Ссылка на картинку"
+             placeholder="Link to image"
              id="avatar-link"
              required>
       <span class="popup__input-error avatar-link-error"></span>
       <button type="submit"
               class="popup__form-submit-button popup__form-submit-button_type_update-avatar-form">
-        Сохранить
+        Save
       </button>
     </form>
   </div>
@@ -167,18 +167,18 @@
   <li class="element">
     <img class="element__image"
          src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
-         alt="Фото">
+         alt="Photo">
     <div class="element__description">
       <h2 class="element__caption"></h2>
      <div class="element__like-section"><button type="button"
               class="element__like-button"
-              aria-label="Кнопка лайка фотографии"></button>
+              aria-label="Like button"></button>
       <span class="element__likes-qty"></span>
        </div>
     </div>
     <button type="button"
             class="element__trash-button"
-            aria-label="Кнопка удаления фотографии"></button>
+            aria-label="Delete image button"></button>
   </li>
 </template>
 </body>
