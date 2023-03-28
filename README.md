@@ -32,5 +32,5 @@ To build the project, a range of technologies were used:
 
 7. The CSS file structure is based on BEM.
 
-The project is available on GitHub Pages at this link: [Место] (https://olgatananova.github.io/mesto/)
+The project is available on GitHub Pages at this link: [Mesto](https://olgatananova.github.io/mesto/)
 
