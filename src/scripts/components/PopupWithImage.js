@@ -1,4 +1,4 @@
-/** Класс PopupWithImage для попапа с картинкой **/
+/** PopupWithImage class for popups containing images**/
 
 import Popup from './Popup.js';
 
@@ -12,7 +12,7 @@ export default class PopupWithImage extends Popup {
   open(item) {
     this._viewImagePopupImg.src = item.link;
     this._viewImagePopupCaption.textContent = item.name;
-    this._viewImagePopupImg.alt = `Фото: ${item.name}`;
+    this._viewImagePopupImg.alt = `Photo: ${item.name}`;
     super.open();
   }
 }

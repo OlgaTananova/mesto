@@ -1,4 +1,4 @@
-/** Класс попапа для подтверждения действий пользователя PopupWithConfirmation **/
+/** PopupWithConfirmation class to open and close popups demanding user's confirmation **/
 
 import Popup from './Popup.js';
 
@@ -17,7 +17,7 @@ export default class PopupWithConfirmation extends Popup {
   renderLoading(isLoading) {
     if (isLoading) {
       this._submitButton.value = this._submitButton.textContent;
-      this._submitButton.textContent = 'Удаление...';
+      this._submitButton.textContent = 'Deleting...';
     } else {
       this._submitButton.textContent = this._submitButton.value;
     }

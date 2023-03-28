@@ -1,4 +1,4 @@
-/** Класс Card для создания карточек с фото **/
+/** Card class to create cards with photos **/
 
 export default class Card {
   constructor(cardTitle,
@@ -36,14 +36,14 @@ export default class Card {
     this._cardLikesQty = this._card.querySelector('.element__likes-qty');
     this._cardCaption.textContent = this._cardTitle;
     this._cardImage.src = this._cardImageLink;
-    this._cardImage.alt = `Фото:${this._cardTitle}`;
+    this._cardImage.alt = `Photo:${this._cardTitle}`;
     this._cardLikesQty.textContent = this._cardLikes.length;
     this._card.id = this._cardId;
-    if (this._currentUserId !== this._ownerId) { // Если id пользователя не совпадает с id
-      this._cardDeleteBtn.classList.add('element__trash-button_inactive'); // владельца карточки
-    }                                                                     // деактивируем иконку удаления
-    if (this._cardLikes.some(item => { // Если в массиве лайков есть лайк от пользователя
-      return (item._id === this._currentUserId); // то закрашиваем кнопку лайка
+    if (this._currentUserId !== this._ownerId) {
+      this._cardDeleteBtn.classList.add('element__trash-button_inactive');
+    }
+    if (this._cardLikes.some(item => {
+      return (item._id === this._currentUserId);
     })) {
       this._like();
     }

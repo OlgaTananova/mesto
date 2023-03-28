@@ -1,4 +1,4 @@
-/** Класс PopupWithForm для попапа с формой **/
+/** PopupWithForm class for popups containing forms **/
 
 import Popup from './Popup.js';
 
@@ -22,7 +22,7 @@ export default class PopupWithForm extends Popup {
   renderLoading(isLoading) {
     if (isLoading) {
       this._submitButton.value = this._submitButton.textContent;
-      this._submitButton.textContent = 'Сохранить...';
+      this._submitButton.textContent = 'Saving...';
     } else {
       this._submitButton.textContent = this._submitButton.value;
     }

@@ -1,6 +1,6 @@
-/** Элементы (кнопки и блоки) **/
+/** Elements **/
 
-// Элементы для редактирования профиля пользователя
+// to manipulate user's data
 export const profile = document.querySelector('.profile');
 export const editProfilePopupSelector = '.popup_type_edit-profile-form';
 export const editProfilePopup = document.querySelector(editProfilePopupSelector);
@@ -20,7 +20,7 @@ export const updateUserAvatarButton = profile.querySelector('.profile__avatar-co
 export const userAvatarSelector = '.profile__avatar';
 
 
-// Элементы для добавления карточек
+// to add cards
 export const addCardButton = profile.querySelector('.profile__add-button');
 export const addCardPopupSelector = '.popup_type_add-card-form';
 export const addCardPopup = document.querySelector(addCardPopupSelector);
@@ -31,7 +31,7 @@ export const cardTemplateSelector = '#element-template';
 export const viewImagePopupSelector = '.popup_type_image-view';
 export const confirmDeletePopupSelector = '.popup_type_confirm-delete-form';
 
-// Объект с селекторами классами для валидации форм
+// Object with selectors to validate forms
 export const object = {
   formSelector: '.popup__form',
   inputSelector: '.popup__form-item',
